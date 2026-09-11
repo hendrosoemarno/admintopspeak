@@ -1,0 +1,18 @@
+[
+  { "singular": "child", "plural": "children", "cefr_level": "A1" },
+  { "singular": "person", "plural": "people", "cefr_level": "A1" },
+  { "singular": "man", "plural": "men", "cefr_level": "A1" },
+  { "singular": "woman", "plural": "women", "cefr_level": "A1" },
+  { "singular": "foot", "plural": "feet", "cefr_level": "A1" },
+  { "singular": "tooth", "plural": "teeth", "cefr_level": "A2" },
+  { "singular": "mouse", "plural": "mice", "cefr_level": "A2" },
+  { "singular": "goose", "plural": "geese", "cefr_level": "B1" },
+  { "singular": "ox", "plural": "oxen", "cefr_level": "B1" },
+  { "singular": "sheep", "plural": "sheep", "cefr_level": "A1" },
+  { "singular": "fish", "plural": "fish", "cefr_level": "A1" },
+  { "singular": "deer", "plural": "deer", "cefr_level": "B1" },
+  { "singular": "leaf", "plural": "leaves", "cefr_level": "A2" },
+  { "singular": "knife", "plural": "knives", "cefr_level": "A2" },
+  { "singular": "wife", "plural": "wives", "cefr_level": "A2" },
+  { "singular": "life", "plural": "lives", "cefr_level": "A2" }
+]

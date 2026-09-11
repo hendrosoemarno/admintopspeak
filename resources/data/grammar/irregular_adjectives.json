@@ -1,0 +1,8 @@
+[
+  { "base": "good", "comparative": "better", "superlative": "best", "derived_adverb": "well", "cefr_level": "A1" },
+  { "base": "bad", "comparative": "worse", "superlative": "worst", "derived_adverb": "badly", "cefr_level": "A1" },
+  { "base": "far", "comparative": "farther", "superlative": "farthest", "derived_adverb": "far", "cefr_level": "A2" },
+  { "base": "little", "comparative": "less", "superlative": "least", "derived_adverb": "little", "cefr_level": "A2" },
+  { "base": "many", "comparative": "more", "superlative": "most", "derived_adverb": "much", "cefr_level": "A2" },
+  { "base": "much", "comparative": "more", "superlative": "most", "derived_adverb": "much", "cefr_level": "A2" }
+]

@@ -1,0 +1,15 @@
+{
+  "pronouns": [
+    { "subject": "i", "object": "me", "possessive_adjective": "my", "possessive_pronoun": "mine", "reflexive": "myself" },
+    { "subject": "you", "object": "you", "possessive_adjective": "your", "possessive_pronoun": "yours", "reflexive": "yourself" },
+    { "subject": "he", "object": "him", "possessive_adjective": "his", "possessive_pronoun": "his", "reflexive": "himself" },
+    { "subject": "she", "object": "her", "possessive_adjective": "her", "possessive_pronoun": "hers", "reflexive": "herself" },
+    { "subject": "it", "object": "it", "possessive_adjective": "its", "possessive_pronoun": "its", "reflexive": "itself" },
+    { "subject": "we", "object": "us", "possessive_adjective": "our", "possessive_pronoun": "ours", "reflexive": "ourselves" },
+    { "subject": "they", "object": "them", "possessive_adjective": "their", "possessive_pronoun": "theirs", "reflexive": "themselves" }
+  ],
+  "demonstratives": [
+    { "singular": "this", "plural": "these", "distance": "near" },
+    { "singular": "that", "plural": "those", "distance": "far" }
+  ]
+}

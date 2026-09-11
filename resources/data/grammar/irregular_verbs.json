@@ -1,0 +1,1997 @@
+[
+    {
+        "collection": "verbs",
+        "base_v1": "be",
+        "past_simple_v2": "was/were",
+        "past_participle_v3": "been",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "become",
+        "past_simple_v2": "became",
+        "past_participle_v3": "become",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "begin",
+        "past_simple_v2": "began",
+        "past_participle_v3": "begun",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "break",
+        "past_simple_v2": "broke",
+        "past_participle_v3": "broken",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bring",
+        "past_simple_v2": "brought",
+        "past_participle_v3": "brought",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "build",
+        "past_simple_v2": "built",
+        "past_participle_v3": "built",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "buy",
+        "past_simple_v2": "bought",
+        "past_participle_v3": "bought",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "catch",
+        "past_simple_v2": "caught",
+        "past_participle_v3": "caught",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "choose",
+        "past_simple_v2": "chose",
+        "past_participle_v3": "chosen",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "come",
+        "past_simple_v2": "came",
+        "past_participle_v3": "come",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "cut",
+        "past_simple_v2": "cut",
+        "past_participle_v3": "cut",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "do",
+        "past_simple_v2": "did",
+        "past_participle_v3": "done",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "drink",
+        "past_simple_v2": "drank",
+        "past_participle_v3": "drunk",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "drive",
+        "past_simple_v2": "drove",
+        "past_participle_v3": "driven",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "eat",
+        "past_simple_v2": "ate",
+        "past_participle_v3": "eaten",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "fall",
+        "past_simple_v2": "fell",
+        "past_participle_v3": "fallen",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "feel",
+        "past_simple_v2": "felt",
+        "past_participle_v3": "felt",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "find",
+        "past_simple_v2": "found",
+        "past_participle_v3": "found",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "fly",
+        "past_simple_v2": "flew",
+        "past_participle_v3": "flown",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "forget",
+        "past_simple_v2": "forgot",
+        "past_participle_v3": "forgotten",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "get",
+        "past_simple_v2": "got",
+        "past_participle_v3": "got",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "give",
+        "past_simple_v2": "gave",
+        "past_participle_v3": "given",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "go",
+        "past_simple_v2": "went",
+        "past_participle_v3": "gone",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "grow",
+        "past_simple_v2": "grew",
+        "past_participle_v3": "grown",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "have",
+        "past_simple_v2": "had",
+        "past_participle_v3": "had",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hear",
+        "past_simple_v2": "heard",
+        "past_participle_v3": "heard",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "keep",
+        "past_simple_v2": "kept",
+        "past_participle_v3": "kept",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "know",
+        "past_simple_v2": "knew",
+        "past_participle_v3": "known",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "leave",
+        "past_simple_v2": "left",
+        "past_participle_v3": "left",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "lose",
+        "past_simple_v2": "lost",
+        "past_participle_v3": "lost",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "make",
+        "past_simple_v2": "made",
+        "past_participle_v3": "made",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "meet",
+        "past_simple_v2": "met",
+        "past_participle_v3": "met",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "pay",
+        "past_simple_v2": "paid",
+        "past_participle_v3": "paid",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "put",
+        "past_simple_v2": "put",
+        "past_participle_v3": "put",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "read",
+        "past_simple_v2": "read",
+        "past_participle_v3": "read",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "run",
+        "past_simple_v2": "ran",
+        "past_participle_v3": "run",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "say",
+        "past_simple_v2": "said",
+        "past_participle_v3": "said",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "see",
+        "past_simple_v2": "saw",
+        "past_participle_v3": "seen",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sell",
+        "past_simple_v2": "sold",
+        "past_participle_v3": "sold",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "send",
+        "past_simple_v2": "sent",
+        "past_participle_v3": "sent",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sing",
+        "past_simple_v2": "sang",
+        "past_participle_v3": "sung",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sit",
+        "past_simple_v2": "sat",
+        "past_participle_v3": "sat",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sleep",
+        "past_simple_v2": "slept",
+        "past_participle_v3": "slept",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "speak",
+        "past_simple_v2": "spoke",
+        "past_participle_v3": "spoken",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spend",
+        "past_simple_v2": "spent",
+        "past_participle_v3": "spent",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "stand",
+        "past_simple_v2": "stood",
+        "past_participle_v3": "stood",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "swim",
+        "past_simple_v2": "swam",
+        "past_participle_v3": "swum",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "take",
+        "past_simple_v2": "took",
+        "past_participle_v3": "taken",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "teach",
+        "past_simple_v2": "taught",
+        "past_participle_v3": "taught",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "tell",
+        "past_simple_v2": "told",
+        "past_participle_v3": "told",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "think",
+        "past_simple_v2": "thought",
+        "past_participle_v3": "thought",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "throw",
+        "past_simple_v2": "threw",
+        "past_participle_v3": "thrown",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "understand",
+        "past_simple_v2": "understood",
+        "past_participle_v3": "understood",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wake",
+        "past_simple_v2": "woke",
+        "past_participle_v3": "woken",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wear",
+        "past_simple_v2": "wore",
+        "past_participle_v3": "worn",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "win",
+        "past_simple_v2": "won",
+        "past_participle_v3": "won",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "write",
+        "past_simple_v2": "wrote",
+        "past_participle_v3": "written",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "cost",
+        "past_simple_v2": "cost",
+        "past_participle_v3": "cost",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "draw",
+        "past_simple_v2": "drew",
+        "past_participle_v3": "drawn",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hit",
+        "past_simple_v2": "hit",
+        "past_participle_v3": "hit",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hold",
+        "past_simple_v2": "held",
+        "past_participle_v3": "held",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hurt",
+        "past_simple_v2": "hurt",
+        "past_participle_v3": "hurt",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "learn",
+        "past_simple_v2": "learnt",
+        "past_participle_v3": "learnt",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "lend",
+        "past_simple_v2": "lent",
+        "past_participle_v3": "lent",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "let",
+        "past_simple_v2": "let",
+        "past_participle_v3": "let",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mean",
+        "past_simple_v2": "meant",
+        "past_participle_v3": "meant",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "ride",
+        "past_simple_v2": "rode",
+        "past_participle_v3": "ridden",
+        "cefr_level": "A1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "ring",
+        "past_simple_v2": "rang",
+        "past_participle_v3": "rung",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bend",
+        "past_simple_v2": "bent",
+        "past_participle_v3": "bent",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bite",
+        "past_simple_v2": "bit",
+        "past_participle_v3": "bitten",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "blow",
+        "past_simple_v2": "blew",
+        "past_participle_v3": "blown",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "burn",
+        "past_simple_v2": "burnt",
+        "past_participle_v3": "burnt",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "dig",
+        "past_simple_v2": "dug",
+        "past_participle_v3": "dug",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "feed",
+        "past_simple_v2": "fed",
+        "past_participle_v3": "fed",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "fight",
+        "past_simple_v2": "fought",
+        "past_participle_v3": "fought",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "forgive",
+        "past_simple_v2": "forgave",
+        "past_participle_v3": "forgiven",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "freeze",
+        "past_simple_v2": "froze",
+        "past_participle_v3": "frozen",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hang",
+        "past_simple_v2": "hung",
+        "past_participle_v3": "hung",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hide",
+        "past_simple_v2": "hid",
+        "past_participle_v3": "hidden",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "lay",
+        "past_simple_v2": "laid",
+        "past_participle_v3": "laid",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "lead",
+        "past_simple_v2": "led",
+        "past_participle_v3": "led",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "lie",
+        "past_simple_v2": "lay",
+        "past_participle_v3": "lain",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "light",
+        "past_simple_v2": "lit",
+        "past_participle_v3": "lit",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rise",
+        "past_simple_v2": "rose",
+        "past_participle_v3": "risen",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shake",
+        "past_simple_v2": "shook",
+        "past_participle_v3": "shaken",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shine",
+        "past_simple_v2": "shone",
+        "past_participle_v3": "shone",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shoot",
+        "past_simple_v2": "shot",
+        "past_participle_v3": "shot",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "show",
+        "past_simple_v2": "showed",
+        "past_participle_v3": "shown",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shut",
+        "past_simple_v2": "shut",
+        "past_participle_v3": "shut",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sink",
+        "past_simple_v2": "sank",
+        "past_participle_v3": "sunk",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "smell",
+        "past_simple_v2": "smelt",
+        "past_participle_v3": "smelt",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spell",
+        "past_simple_v2": "spelt",
+        "past_participle_v3": "spelt",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spill",
+        "past_simple_v2": "spilt",
+        "past_participle_v3": "spilt",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "steal",
+        "past_simple_v2": "stole",
+        "past_participle_v3": "stolen",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "stick",
+        "past_simple_v2": "stuck",
+        "past_participle_v3": "stuck",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sweep",
+        "past_simple_v2": "swept",
+        "past_participle_v3": "swept",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wake up",
+        "past_simple_v2": "woke up",
+        "past_participle_v3": "woken up",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bet",
+        "past_simple_v2": "bet",
+        "past_participle_v3": "bet",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bind",
+        "past_simple_v2": "unbound",
+        "past_participle_v3": "unbound",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bleed",
+        "past_simple_v2": "bled",
+        "past_participle_v3": "bled",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "breed",
+        "past_simple_v2": "bred",
+        "past_participle_v3": "bred",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "broadcast",
+        "past_simple_v2": "broadcast",
+        "past_participle_v3": "broadcast",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "burst",
+        "past_simple_v2": "burst",
+        "past_participle_v3": "burst",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "cast",
+        "past_simple_v2": "cast",
+        "past_participle_v3": "cast",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "cling",
+        "past_simple_v2": "clung",
+        "past_participle_v3": "clung",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "creep",
+        "past_simple_v2": "crept",
+        "past_participle_v3": "crept",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "deal",
+        "past_simple_v2": "dealt",
+        "past_participle_v3": "dealt",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "flee",
+        "past_simple_v2": "fled",
+        "past_participle_v3": "fled",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "forbid",
+        "past_simple_v2": "forbade",
+        "past_participle_v3": "forbidden",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "grind",
+        "past_simple_v2": "ground",
+        "past_participle_v3": "ground",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "kneel",
+        "past_simple_v2": "knelt",
+        "past_participle_v3": "knelt",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "leap",
+        "past_simple_v2": "leapt",
+        "past_participle_v3": "leapt",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overtake",
+        "past_simple_v2": "overtook",
+        "past_participle_v3": "overtaken",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "quit",
+        "past_simple_v2": "quit",
+        "past_participle_v3": "quit",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "seek",
+        "past_simple_v2": "sought",
+        "past_participle_v3": "sought",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sew",
+        "past_simple_v2": "sewed",
+        "past_participle_v3": "sewn",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shrink",
+        "past_simple_v2": "shrank",
+        "past_participle_v3": "shrunk",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "slide",
+        "past_simple_v2": "slid",
+        "past_participle_v3": "slid",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spit",
+        "past_simple_v2": "spat",
+        "past_participle_v3": "spat",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "split",
+        "past_simple_v2": "split",
+        "past_participle_v3": "split",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spoil",
+        "past_simple_v2": "spoilt",
+        "past_participle_v3": "spoilt",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spread",
+        "past_simple_v2": "spread",
+        "past_participle_v3": "spread",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sting",
+        "past_simple_v2": "stung",
+        "past_participle_v3": "stung",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "stink",
+        "past_simple_v2": "stank",
+        "past_participle_v3": "stunk",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "strike",
+        "past_simple_v2": "struck",
+        "past_participle_v3": "struck",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "swear",
+        "past_simple_v2": "swore",
+        "past_participle_v3": "sworn",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "tear",
+        "past_simple_v2": "tore",
+        "past_participle_v3": "torn",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "undergo",
+        "past_simple_v2": "underwent",
+        "past_participle_v3": "undergone",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "upset",
+        "past_simple_v2": "upset",
+        "past_participle_v3": "upset",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "weep",
+        "past_simple_v2": "wept",
+        "past_participle_v3": "wept",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wind",
+        "past_simple_v2": "wound",
+        "past_participle_v3": "wound",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "withdraw",
+        "past_simple_v2": "withdrew",
+        "past_participle_v3": "withdrawn",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "abide",
+        "past_simple_v2": "abode",
+        "past_participle_v3": "abode",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "arise",
+        "past_simple_v2": "arose",
+        "past_participle_v3": "arisen",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "awake",
+        "past_simple_v2": "awoke",
+        "past_participle_v3": "awoken",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "befall",
+        "past_simple_v2": "befell",
+        "past_participle_v3": "befallen",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "beget",
+        "past_simple_v2": "begot",
+        "past_participle_v3": "begotten",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "behold",
+        "past_simple_v2": "beheld",
+        "past_participle_v3": "beheld",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "beseech",
+        "past_simple_v2": "besought",
+        "past_participle_v3": "besought",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "bid",
+        "past_simple_v2": "bade",
+        "past_participle_v3": "bidden",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "cleave",
+        "past_simple_v2": "cleft",
+        "past_participle_v3": "cleft",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "clothe",
+        "past_simple_v2": "clad",
+        "past_participle_v3": "clad",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "dare",
+        "past_simple_v2": "durst",
+        "past_participle_v3": "dared",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "dwell",
+        "past_simple_v2": "dwelt",
+        "past_participle_v3": "dwelt",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "forbear",
+        "past_simple_v2": "forbore",
+        "past_participle_v3": "forborne",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "forego",
+        "past_simple_v2": "forewent",
+        "past_participle_v3": "foregone",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "foresee",
+        "past_simple_v2": "foresaw",
+        "past_participle_v3": "foreseen",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "foretell",
+        "past_simple_v2": "foretold",
+        "past_participle_v3": "foretold",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "forsake",
+        "past_simple_v2": "forsook",
+        "past_participle_v3": "forsaken",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "gainsay",
+        "past_simple_v2": "gainsaid",
+        "past_participle_v3": "gainsaid",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "gird",
+        "past_simple_v2": "girt",
+        "past_participle_v3": "girt",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hearth",
+        "past_simple_v2": "hove",
+        "past_participle_v3": "hove",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hew",
+        "past_simple_v2": "hewed",
+        "past_participle_v3": "hewn",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "inlay",
+        "past_simple_v2": "inlaid",
+        "past_participle_v3": "inlaid",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mislay",
+        "past_simple_v2": "mislaid",
+        "past_participle_v3": "mislaid",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mislead",
+        "past_simple_v2": "misled",
+        "past_participle_v3": "misled",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mispell",
+        "past_simple_v2": "mispelt",
+        "past_participle_v3": "mispelt",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misspend",
+        "past_simple_v2": "misspent",
+        "past_participle_v3": "misspent",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mistake",
+        "past_simple_v2": "mistook",
+        "past_participle_v3": "mistaken",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mow",
+        "past_simple_v2": "mowed",
+        "past_participle_v3": "mown",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outdo",
+        "past_simple_v2": "outdid",
+        "past_participle_v3": "outdone",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outgrow",
+        "past_simple_v2": "outgrew",
+        "past_participle_v3": "outgrown",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outshine",
+        "past_simple_v2": "outshone",
+        "past_participle_v3": "outshone",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overcome",
+        "past_simple_v2": "overcame",
+        "past_participle_v3": "overcome",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overdo",
+        "past_simple_v2": "overdid",
+        "past_participle_v3": "overdone",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overhang",
+        "past_simple_v2": "overhung",
+        "past_participle_v3": "overhung",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overhear",
+        "past_simple_v2": "overheard",
+        "past_participle_v3": "overheard",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "override",
+        "past_simple_v2": "overrode",
+        "past_participle_v3": "overridden",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overrun",
+        "past_simple_v2": "overran",
+        "past_participle_v3": "overrun",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "oversee",
+        "past_simple_v2": "oversaw",
+        "past_participle_v3": "overseen",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overshoot",
+        "past_simple_v2": "overshot",
+        "past_participle_v3": "overshot",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "oversleep",
+        "past_simple_v2": "overslept",
+        "past_participle_v3": "overslept",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overthrow",
+        "past_simple_v2": "overthrew",
+        "past_participle_v3": "overthrown",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "partake",
+        "past_simple_v2": "partook",
+        "past_participle_v3": "partaken",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rend",
+        "past_simple_v2": "rent",
+        "past_participle_v3": "rent",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rid",
+        "past_simple_v2": "rid",
+        "past_participle_v3": "rid",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "saw",
+        "past_simple_v2": "sawed",
+        "past_participle_v3": "sawn",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shear",
+        "past_simple_v2": "shore",
+        "past_participle_v3": "shorn",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "shed",
+        "past_simple_v2": "shed",
+        "past_participle_v3": "shed",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "slay",
+        "past_simple_v2": "slew",
+        "past_participle_v3": "slain",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sling",
+        "past_simple_v2": "slung",
+        "past_participle_v3": "slung",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "slink",
+        "past_simple_v2": "slunk",
+        "past_participle_v3": "slunk",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "slit",
+        "past_simple_v2": "slit",
+        "past_participle_v3": "slit",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "smite",
+        "past_simple_v2": "smote",
+        "past_participle_v3": "smitten",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sow",
+        "past_simple_v2": "sowed",
+        "past_participle_v3": "sown",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "speed",
+        "past_simple_v2": "sped",
+        "past_participle_v3": "sped",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spin",
+        "past_simple_v2": "spun",
+        "past_participle_v3": "spun",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spring",
+        "past_simple_v2": "sprang",
+        "past_participle_v3": "sprung",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "strive",
+        "past_simple_v2": "strove",
+        "past_participle_v3": "striven",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sublet",
+        "past_simple_v2": "sublet",
+        "past_participle_v3": "sublet",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "tread",
+        "past_simple_v2": "trod",
+        "past_participle_v3": "trodden",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "unbend",
+        "past_simple_v2": "unbent",
+        "past_participle_v3": "unbent",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "underbid",
+        "past_simple_v2": "underbade",
+        "past_participle_v3": "underbidden",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "underlie",
+        "past_simple_v2": "underlay",
+        "past_participle_v3": "underlain",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "undersell",
+        "past_simple_v2": "undersold",
+        "past_participle_v3": "undersold",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "undertake",
+        "past_simple_v2": "undertook",
+        "past_participle_v3": "undertaken",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "underwrite",
+        "past_simple_v2": "underwrote",
+        "past_participle_v3": "underwritten",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "undo",
+        "past_simple_v2": "undid",
+        "past_participle_v3": "undone",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "unwind",
+        "past_simple_v2": "unwound",
+        "past_participle_v3": "unwound",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "uphold",
+        "past_simple_v2": "upheld",
+        "past_participle_v3": "upheld",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "waylay",
+        "past_simple_v2": "waylaid",
+        "past_participle_v3": "waylaid",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "weave",
+        "past_simple_v2": "wove",
+        "past_participle_v3": "woven",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wed",
+        "past_simple_v2": "wed",
+        "past_participle_v3": "wed",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wring",
+        "past_simple_v2": "wrung",
+        "past_participle_v3": "wrung",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "backslide",
+        "past_simple_v2": "backslid",
+        "past_participle_v3": "backslid",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "browbeat",
+        "past_simple_v2": "browbeat",
+        "past_participle_v3": "browbeaten",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "counterthink",
+        "past_simple_v2": "counterthought",
+        "past_participle_v3": "counterthought",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "disprove",
+        "past_simple_v2": "disproved",
+        "past_participle_v3": "disproven",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "floodlight",
+        "past_simple_v2": "floodlit",
+        "past_participle_v3": "floodlit",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "ghostwrite",
+        "past_simple_v2": "ghostwrote",
+        "past_participle_v3": "ghostwritten",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hamstring",
+        "past_simple_v2": "hamstrung",
+        "past_participle_v3": "hamstrung",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "interweave",
+        "past_simple_v2": "interwove",
+        "past_participle_v3": "interwoven",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "keep up",
+        "past_simple_v2": "kept up",
+        "past_participle_v3": "kept up",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mishear",
+        "past_simple_v2": "misheard",
+        "past_participle_v3": "misheard",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misread",
+        "past_simple_v2": "misread",
+        "past_participle_v3": "misread",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misunderstand",
+        "past_simple_v2": "misunderstood",
+        "past_participle_v3": "misunderstood",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "offspring",
+        "past_simple_v2": "offsprang",
+        "past_participle_v3": "offsprung",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outbid",
+        "past_simple_v2": "outbid",
+        "past_participle_v3": "outbid",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outfight",
+        "past_simple_v2": "outfought",
+        "past_participle_v3": "outfought",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outrun",
+        "past_simple_v2": "outran",
+        "past_participle_v3": "outrun",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outsell",
+        "past_simple_v2": "outsold",
+        "past_participle_v3": "outsold",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overeat",
+        "past_simple_v2": "overate",
+        "past_participle_v3": "overeaten",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overpay",
+        "past_simple_v2": "overpaid",
+        "past_participle_v3": "overpaid",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overspend",
+        "past_simple_v2": "overspent",
+        "past_participle_v3": "overspent",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "proofread",
+        "past_simple_v2": "proofread",
+        "past_participle_v3": "proofread",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rebind",
+        "past_simple_v2": "rebound",
+        "past_participle_v3": "rebound",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rebuild",
+        "past_simple_v2": "rebuilt",
+        "past_participle_v3": "rebuilt",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "recast",
+        "past_simple_v2": "recast",
+        "past_participle_v3": "recast",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "redo",
+        "past_simple_v2": "redid",
+        "past_participle_v3": "redone",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rehear",
+        "past_simple_v2": "reheard",
+        "past_participle_v3": "reheard",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "remake",
+        "past_simple_v2": "remade",
+        "past_participle_v3": "remade",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "repay",
+        "past_simple_v2": "repaid",
+        "past_participle_v3": "repaid",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "reread",
+        "past_simple_v2": "reread",
+        "past_participle_v3": "reread",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "resell",
+        "past_simple_v2": "resold",
+        "past_participle_v3": "resold",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "reset",
+        "past_simple_v2": "reset",
+        "past_participle_v3": "reset",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "retake",
+        "past_simple_v2": "retook",
+        "past_participle_v3": "retaken",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rethink",
+        "past_simple_v2": "rethought",
+        "past_participle_v3": "rethought",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rewind",
+        "past_simple_v2": "rewound",
+        "past_participle_v3": "rewound",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rewrite",
+        "past_simple_v2": "rewrote",
+        "past_participle_v3": "rewritten",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spotlight",
+        "past_simple_v2": "spotlit",
+        "past_participle_v3": "spotlit",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sunburn",
+        "past_simple_v2": "sunburnt",
+        "past_participle_v3": "sunburnt",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "typecast",
+        "past_simple_v2": "typecast",
+        "past_participle_v3": "typecast",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "typeset",
+        "past_simple_v2": "typeset",
+        "past_participle_v3": "typeset",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "undercharge",
+        "past_simple_v2": "undercharged",
+        "past_participle_v3": "undercharged",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "underpay",
+        "past_simple_v2": "underpaid",
+        "past_participle_v3": "underpaid",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "unfreeze",
+        "past_simple_v2": "unfroze",
+        "past_participle_v3": "unfrozen",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "unlearn",
+        "past_simple_v2": "unlearnt",
+        "past_participle_v3": "unlearnt",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "unsay",
+        "past_simple_v2": "unsaid",
+        "past_participle_v3": "unsaid",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "withhold",
+        "past_simple_v2": "withheld",
+        "past_participle_v3": "withheld",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "withstand",
+        "past_simple_v2": "withstood",
+        "past_participle_v3": "withstood",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "airdrop",
+        "past_simple_v2": "airdropped",
+        "past_participle_v3": "airdropped",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "backfire",
+        "past_simple_v2": "backfired",
+        "past_participle_v3": "backfired",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "cross-breed",
+        "past_simple_v2": "cross-bred",
+        "past_participle_v3": "cross-bred",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "custom-make",
+        "past_simple_v2": "custom-made",
+        "past_participle_v3": "custom-made",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "deep-freeze",
+        "past_simple_v2": "deep-froze",
+        "past_participle_v3": "deep-frozen",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "double-check",
+        "past_simple_v2": "double-checked",
+        "past_participle_v3": "double-checked",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "dry-clean",
+        "past_simple_v2": "dry-cleaned",
+        "past_participle_v3": "dry-cleaned",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hand-feed",
+        "past_simple_v2": "hand-fed",
+        "past_participle_v3": "hand-fed",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "hand-write",
+        "past_simple_v2": "hand-wrote",
+        "past_participle_v3": "hand-written",
+        "cefr_level": "A2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "interbreed",
+        "past_simple_v2": "interbred",
+        "past_participle_v3": "interbred",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "intercut",
+        "past_simple_v2": "intercut",
+        "past_participle_v3": "intercut",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "interlay",
+        "past_simple_v2": "interlaid",
+        "past_participle_v3": "interlaid",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "lip-read",
+        "past_simple_v2": "lip-read",
+        "past_participle_v3": "lip-read",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "machine-sew",
+        "past_simple_v2": "machine-sewed",
+        "past_participle_v3": "machine-sewn",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "miscast",
+        "past_simple_v2": "miscast",
+        "past_participle_v3": "miscast",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misdeal",
+        "past_simple_v2": "misdealt",
+        "past_participle_v3": "misdealt",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misgive",
+        "past_simple_v2": "misgave",
+        "past_participle_v3": "misgiven",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mishit",
+        "past_simple_v2": "mishit",
+        "past_participle_v3": "mishit",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misknow",
+        "past_simple_v2": "misknew",
+        "past_participle_v3": "misknown",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "mishandle",
+        "past_simple_v2": "mishandled",
+        "past_participle_v3": "mishandled",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "misplace",
+        "past_simple_v2": "misplaced",
+        "past_participle_v3": "misplaced",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "outperform",
+        "past_simple_v2": "outperformed",
+        "past_participle_v3": "outperformed",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overbuild",
+        "past_simple_v2": "overbuilt",
+        "past_participle_v3": "overbuilt",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overdraw",
+        "past_simple_v2": "overdrew",
+        "past_participle_v3": "overdrawn",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overfeed",
+        "past_simple_v2": "overfed",
+        "past_participle_v3": "overfed",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "overlay",
+        "past_simple_v2": "overlaid",
+        "past_participle_v3": "overlaid",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "rough-cast",
+        "past_simple_v2": "rough-cast",
+        "past_participle_v3": "rough-cast",
+        "cefr_level": "C2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "short-circuit",
+        "past_simple_v2": "short-circuited",
+        "past_participle_v3": "short-circuited",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "sight-read",
+        "past_simple_v2": "sight-read",
+        "past_participle_v3": "sight-read",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "spoon-feed",
+        "past_simple_v2": "spoon-fed",
+        "past_participle_v3": "spoon-fed",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "test-drive",
+        "past_simple_v2": "test-drove",
+        "past_participle_v3": "test-driven",
+        "cefr_level": "B1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "test-fly",
+        "past_simple_v2": "test-flew",
+        "past_participle_v3": "test-flown",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "underlay",
+        "past_simple_v2": "underlaid",
+        "past_participle_v3": "underlaid",
+        "cefr_level": "C1"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "unstick",
+        "past_simple_v2": "unstuck",
+        "past_participle_v3": "unstuck",
+        "cefr_level": "B2"
+    },
+    {
+        "collection": "verbs",
+        "base_v1": "wiretap",
+        "past_simple_v2": "wiretapped",
+        "past_participle_v3": "wiretapped",
+        "cefr_level": "C1"
+    }
+]
