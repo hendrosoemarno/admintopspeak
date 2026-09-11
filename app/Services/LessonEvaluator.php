@@ -40,10 +40,8 @@ class LessonEvaluator
             throw LessonEvaluationUnavailableException::forUnavailable();
         }
 
-        $system = $this->buildPrompt($question);
-
         $calls = array_map(
-            fn (string $transcript) => [$system, $transcript],
+            fn (string $transcript) => [$this->buildPrompt($question, $transcript), $transcript],
             $transcripts,
         );
 
@@ -97,11 +95,11 @@ class LessonEvaluator
         return max(0.0, min(1.0, $value));
     }
 
-    private function buildPrompt(Question $question): string
+    private function buildPrompt(Question $question, string $transcript): string
     {
         return str_replace(
-            ['{question_text}', '{model_answer}', '{key_point}'],
-            [$question->question_text, $question->model_answer, $question->key_point],
+            ['{question_text}', '{model_answer}', '{key_point}', '{user_transcript}'],
+            [$question->question_text, $question->model_answer, $question->key_point, $transcript],
             (string) file_get_contents(resource_path('prompts/ielts_lesson_evaluator.txt')),
         );
     }

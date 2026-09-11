@@ -40,7 +40,7 @@ Authorization: Bearer {sanctum_token}   # wajib untuk endpoint terproteksi
 | HTTP | Kondisi | Keterangan |
 |------|---------|------------|
 | 401 | Token Sanctum tidak ada/tidak valid | Headers `WWW-Authenticate` |
-| 402 | Kuota trial habis (Free Tier) | `errors.is_paywalled=true`, body berisi kuota & status |
+| 402 | Free quota habis (Free Tier) | `errors.is_paywalled=true`, body berisi kuota, status subscription & `offer` |
 | 403 | Bukan admin / akses dilarang | Endpoint admin, callback signature invalid |
 | 404 | Sesi/topik/merchant order tidak ditemukan | |
 | 422 | Validasi gagal / turn tidak valid | `errors` berisi detail per field |
@@ -245,9 +245,10 @@ Inisialisasi 1 sesi latihan baru (5 turn untuk ADAPTIVE/THEMATIC).
   "topic_id": null
 }
 ```
-- `mode`: `ADAPTIVE` (default), `THEMATIC`, `IELTS_SPEAKING`, atau `TOEFL_IBT`.
+- `mode`: **wajib** (`ADAPTIVE`, `THEMATIC`, `IELTS_SPEAKING`, atau `TOEFL_IBT`) — tidak ada default.
   - `THEMATIC`: `topic_id` wajib diisi.
   - `IELTS_SPEAKING` / `TOEFL_IBT`: simulasi ujian, tanpa `topic_id`. Jumlah turn = jumlah part × 2 (`EXAM_TURNS_PER_PART`).
+- > Kurikulum IELTS (Units/Lessons) **tidak** memakai endpoint ini — gunakan `GET /curriculum/lessons/{id}/session` (lihat Section 8).
 
 **Response Success (201 Created) — ADAPTIVE/THEMATIC**
 ```json
@@ -298,11 +299,12 @@ Inisialisasi 1 sesi latihan baru (5 turn untuk ADAPTIVE/THEMATIC).
 ```json
 {
   "status": "error",
-  "message": "Kuota latihan gratis kamu sudah habis. Upgrade ke Premium untuk melanjutkan tanpa batas.",
+  "message": "Free quota habis. Silakan upgrade ke Premium untuk melanjutkan latihan.",
   "errors": {
     "is_paywalled": true,
     "remaining_trial_sessions": 0,
-    "subscription_status": "FREE"
+    "subscription_status": "FREE",
+    "offer": "Upgrade ke Premium untuk melanjutkan latihan di level CEFR berapapun tanpa batas."
   }
 }
 ```
@@ -372,9 +374,31 @@ Mengirim hasil transkrip lisan user pada turn berjalan.
   }
 }
 ```
-> Pada turn ke-4 tanpa error dan akumulasi skor ≥ 6 (dari maks 8), `promotion` berisi:
-> `{ "is_promoted": true, "previous_level": "A1", "new_level": "A2", "trigger_score": 6 }`.
+> `promotion` pada `evaluate-turn` **selalu `null`** — promosi hanya dievaluasi saat `POST /sessions/complete`
+> (akumulasi 4 turn berurutan terbaik ≥ 6 dari maks 8). Saat terjadi, `complete` mengembalikan
+> `is_promoted=true` beserta `previous_cefr_level` dan `new_cefr_level`.
 > Setiap error baru pada turn yang sedang WAITING_REPETITION → 422 `RepetitionNotPending`.
+
+**Mode IELTS_SPEAKING (sesi kurikulum):** `evaluate-turn` memakai penilaian kurikulum (key point 50% / grammar 25% / lexical 25%, skor 0–100), bukan word count 0/1. Tidak ada tahap repetition — error tetap maju ke soal berikutnya:
+```json
+{
+  "step_state": "NORMAL",
+  "ielts_curriculum": true,
+  "advance_on_error": true,
+  "scores": {
+    "score": 85,
+    "key_point_detected": true,
+    "key_point_target": "focus on / foreign language",
+    "grammar_feedback": "Sentence structure is correct.",
+    "vocabulary_feedback": "Good use of targeted collocations.",
+    "suggested_answer": ""
+  },
+  "has_error": false,
+  "promotion": null,
+  "ai_speech_prompt": "Great! Now, What is your favorite daily activity?",
+  "next_question": { "question_id": 15, "turn_number": 2 }
+}
+```
 
 ### C. Verify Repetition Turn (Say Again Flow)
 Mengirim ucapan pengulangan user saat `step_state = 'WAITING_REPETITION'`.
@@ -864,7 +888,7 @@ Katalog paket yang dijual.
 }
 ```
 - Paket selalu **TIME** (premium aktif sesuai durasi).
-- `price` = harga efektif (diskon bila ada). Tampilkan label dari `duration_label`.
+- `price` / `original_price` = angka desimal (float). `price` adalah harga efektif (diskon bila ada); tampilkan label dari `duration_label`.
 
 ### B. List Payment Methods
 Menampilkan kanal pembayaran aktif (logo, nama, fee) untuk nominal paket terpilih.
@@ -914,6 +938,7 @@ Membuat transaksi Duitku (inquiry) untuk kanal terpilih & menyimpan langganan PE
     "amount": 5000,
     "payment_status": "PENDING",
     "payment_method": "VA",
+    "subscription_status": "FREE",
     "checkout_url": "https://sandbox.duitku.com/topup/topupdirectv2.aspx?ref=...",
     "va_number": "7007014001444348",
     "qr_string": null,
@@ -947,7 +972,7 @@ Dihubungi server Duitku saat status pembayaran berubah. Signature diverifikasi s
 {
   "status": "success",
   "message": "Callback diproses",
-  "data": { "activated": true, "merchant_order_id": "TP20260908061012A1B2C3D4", "payment_status": "PAID" }
+  "data": { "activated": true, "merchant_order_id": "TP20260908061012A1B2C3D4", "payment_status": "PAID", "subscription_status": "PREMIUM_MONTHLY", "expires_at": "2026-09-09T10:00:00+00:00" }
 }
 ```
 **Error (403):** signature tidak valid → `"Invalid Duitku callback signature."`
@@ -1161,26 +1186,66 @@ dan status kelulusan **per user** disimpan di `user_lesson_progress`.
 > `questions` berisi hingga 5 soal acak milik lesson tersebut.
 > **Error (404):** `"Lesson tidak ditemukan."`
 
-### C. Evaluate Answer & Finalize Session
+### C. Evaluate Answer Per Question (Disimpan per Soal)
 
-**Endpoint:** `POST /curriculum/lessons/{lesson_id}/evaluate`
+Menilai **1 jawaban** per panggilan. Evaluasi disimpan ke `curriculum_evaluation_logs` (bukan langsung menentukan kelulusan).
+
+**Endpoint:** `POST /curriculum/lessons/{lesson_id}/evaluate-question`
 **Authentication:** Bearer Token
 
 **Request Body**
 ```json
 {
   "session_id": "SESS-98234712",
-  "answers": [
-    {
-      "question_id": 501,
-      "user_transcript": "In my opinion schools focus on foreign language early because children learn faster."
-    }
-  ]
+  "question_id": 501,
+  "user_transcript": "In my opinion schools focus on foreign language early because children learn faster."
 }
 ```
-- `answers`: 1–5 item, setiap `question_id` wajib milik lesson ini (selain itu → 422).
+- `question_id` **wajib** milik lesson ini (selain itu → 422).
+- Satu `question_id` hanya boleh dievaluasi **sekali** per `session_id` (ulang → 422 `"Soal ini sudah dievaluasi pada sesi ini."`).
+- `user_transcript` maks 5000 karakter.
 
-**Request Body** — contoh lengkap 5 jawaban: `answers` diisi satu objek per soal (`question_id` + `user_transcript`).
+**Response Success (200 OK)**
+```json
+{
+  "status": "success",
+  "message": "Evaluasi soal tersimpan",
+  "data": {
+    "question_id": 501,
+    "is_correct": true,
+    "score": 85,
+    "key_point_detected": true,
+    "key_point_target": "focus on / foreign language",
+    "grammar_feedback": "Sentence structure is correct.",
+    "vocabulary_feedback": "Good use of targeted collocations.",
+    "suggested_answer": ""
+  }
+}
+```
+> `suggested_answer` berisi kalimat perbaikan bila soal salah (`is_correct=false`), kosong bila benar.
+
+**Grading (AI Engine):**
+| Dimensi | Bobot | Keterangan |
+|---------|-------|------------|
+| Key Point Checklist | 50% | Keberadaan & ketepatan kolokasi target (`key_point`) |
+| Grammatical Accuracy | 25% | Ketepatan tata bahasa pada transkrip STT |
+| Lexical Resource | 25% | Variasi kosakata sesuai `model_answer` |
+
+- `score` per soal = 0–100 (bobot tertimbang). `is_correct = true` bila `key_point_detected && score >= 80`.
+- **Error (404):** lesson tidak ditemukan. **Error (422):** soal bukan milik lesson / sudah dievaluasi / LLM tidak tersedia.
+
+### D. Complete Lesson Session (Finalize & Passing Grade)
+
+Menggabungkan seluruh hasil evaluasi sesi, menetapkan kelulusan, memperbarui status lesson, dan memantik kalkulasi Progress Predictor.
+
+**Endpoint:** `POST /curriculum/lessons/{lesson_id}/complete`
+**Authentication:** Bearer Token
+
+**Request Body**
+```json
+{ "session_id": "SESS-98234712" }
+```
+- Wajib ada **minimal 1** `evaluate-question` pada sesi tersebut (belum ada → 422 `"Belum ada evaluasi untuk sesi ini."`).
 
 **Response Success (200 OK)**
 ```json
@@ -1202,24 +1267,18 @@ dan status kelulusan **per user** disimpan di `user_lesson_progress`.
         "key_point_detected": true,
         "key_point_target": "focus on / foreign language",
         "grammar_feedback": "Sentence structure is correct.",
-        "vocabulary_feedback": "Good use of targeted collocations."
+        "vocabulary_feedback": "Good use of targeted collocations.",
+        "suggested_answer": ""
       }
     ]
   }
 }
 ```
 
-**Grading (AI Engine):**
-| Dimensi | Bobot | Keterangan |
-|---------|-------|------------|
-| Key Point Checklist | 50% | Keberadaan & ketepatan kolokasi target (`key_point`) |
-| Grammatical Accuracy | 25% | Ketepatan tata bahasa pada transkrip STT |
-| Lexical Resource | 25% | Variasi kosakata sesuai `model_answer` |
-
-- `score` per soal = 0–100 (bobot tertimbang). `is_correct = true` bila `key_point_detected && score >= 80`.
-- `is_passed = true` bila `correct_count >= 4`.
+- `is_passed = true` bila `correct_count >= 4` (`REQUIRED_CORRECT`).
 - Status lesson hanya **naik** ke `PASSED`, tidak pernah turun (re-take gagal tetap `PASSED`).
-- **Error (404):** lesson tidak ditemukan. **Error (422):** LLM tidak tersedia / `question_id` asing.
+- Metrik sesi dicatat ke `practice_sessions` (`score` = rata-rata skor soal, `is_passed`, `correct/total_keypoints`) lalu `user_progress_predictors` di-*recalculate* — lihat `GET /user/progress-predictor` (Section 4.B.2).
+- **Error (404):** lesson tidak ditemukan. **Error (422):** belum ada evaluasi pada sesi ini.
 
 ---
 
@@ -1227,6 +1286,5 @@ dan status kelulusan **per user** disimpan di `user_lesson_progress`.
 
 - **Autentikasi**: Sanctum Bearer token. Token didapat dari `POST /auth/register-device` (`data.token`).
 - **Skor per turn**: maksimum 2 poin (`word_count` 0/1, `grammar` 0/1). Promosi level saat akumulasi 4-turn berurutan terbaik ≥ 6 (maks 8, tanpa demosi). Field `accumulated_score` (bukan `accumulated_3turn_score`).
-- **Kuota**: Guest 1 sesi; verifikasi WA menambah 4 (total 5); konsumsi di turn pertama tiap sesi; premium unlimited.
+- **Kuota**: Guest 1 sesi (`AppConfiguration::initialFreeSessions()`, default 1, dapat diubah admin); dikonsumsi di turn pertama tiap sesi; premium unlimited. **Fitur verifikasi WhatsApp/OTP sudah dihapus total** — tidak ada klaim bonus sesi lewat WhatsApp.
 - **Self-Learning Grammar**: kalimat dengan error yang belum terpetakan rule-nya otomatis tercatat sebagai pending rule (`/admin/grammar-rules/pending`) untuk direview admin.
-- **OTP**: 6 digit, berlaku 5 menit, cooldown kirim ulang 60 detik. Kode development terlihat di `storage/logs/laravel.log` dan `data.debug_code`.

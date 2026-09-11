@@ -1,7 +1,7 @@
 # PROJECT OVERVIEW: TopSpeak Backend API & System Engine
 
 ## 1. Executive Summary & Vision
-**TopSpeak** adalah platform pembelajaran bahasa Inggris lisan (Speaking) berbasis AI dan Sistem Pakar Adaptif (Adaptive Expert System). Backend ini dibangun menggunakan **Laravel (PHP)** dan **PostgreSQL** untuk menyediakan REST API bagi aplikasi **Android Native (Kotlin)** dan **Web Admin Dashboard**.
+**TopSpeak** adalah platform pembelajaran bahasa Inggris lisan (Speaking) berbasis AI dan Sistem Pakar Adaptif (Adaptive Expert System). Backend ini dibangun menggunakan **Laravel (PHP)** dan **MySQL 8.4** (Laragon) untuk menyediakan REST API bagi aplikasi **Android Native (Kotlin)** dan **Web Admin Dashboard**.
 
 Platform ini mengadopsi standar internasional **CEFR (A1–C2)**, menggunakan pendekatan **Multi-Component Scoring (4-Turn Rolling Window)**, serta menerapkan prinsip psikologis **No-Demotion** (tanpa penurunan level permanen).
 
@@ -9,7 +9,7 @@ Platform ini mengadopsi standar internasional **CEFR (A1–C2)**, menggunakan pe
 
 ## 2. Tech Stack & Standards
 - **Framework & Language:** Laravel 11 / PHP 8.3+
-- **Database:** PostgreSQL
+- **Database:** MySQL 8.4 (Laragon)
 - **Architecture Pattern:** Controller -> Service Layer -> Repository Pattern -> API Resource
 - **API Standard:** RESTful API (JSON Payload & Responses)
 - **Validation:** Strict Form Request Classes (`app/Http/Requests/`)
@@ -40,8 +40,10 @@ Platform ini mengadopsi standar internasional **CEFR (A1–C2)**, menggunakan pe
 3. Baik pengulangan user berhasil (*match*) maupun gagal, AI akan merespons dengan kalimat konfirmasi netral (*"Alright, got it"* / *"Let's move on"*) dan **TIDAK Boleh menggunakan kata "Great job!" saat respons salah**. Setelah itu, `step_state` kembali ke `'NORMAL'`.
 
 ### C. Sistem Kuota & Paywall (Free Tier vs Premium)
-- **Mode Guest:** Mendapatkan kuota 1 Sesi Latihan Gratis (`remaining_trial_sessions = 1`).
-- **Verifikasi WhatsApp:** Klaim tambahan 4 Sesi Gratis setelah verifikasi OTP WA (Total 5 Sesi Free Tier).
+- **Mode Guest:** Mendapatkan kuota awal dari `AppConfiguration::initialFreeSessions()`
+  (default 1 Sesi, `remaining_trial_sessions = 1`; dapat diubah admin).
+- **Verifikasi WhatsApp dihapus:** Klaim bonus sesi via OTP WhatsApp tidak ada lagi
+  (migrasi `2026_09_07_000003_drop_wa_verification_fields.php`).
 - **Free Tier Session Behavior:** User *Free Tier* dapat merasakan naik level secara *real-time* di tengah sesi (Turn 1–5), namun akses ke Sesi berikutnya di Level B1 terkunci oleh *Paywall*.
 - **Subscriber (Premium):** Bebas memilih seluruh level CEFR dan skenario *Thematic Freedom Mode*.
 

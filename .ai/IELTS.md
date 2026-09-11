@@ -6,7 +6,7 @@ Dokumen ini berisi spesifikasi arsitektur, skema database, logika bisnis, dan RE
 
 ## 1. Core App Logic & Rules
 
-1. **Akses Open-Ended**: Semua Unit dan Lesson terbuka secara default (`is_locked = false`).
+1. **Akses Open-Ended**: Semua Unit dan Lesson dibuat terbuka secara default (`lessons.is_active = true`). Lesson non-aktif disembunyikan dari katalog & `total_lessons` Progress Predictor.
 2. **Session Logic**: 
    - Setiap sesi latihan mengambil **5 soal acak** (`LIMIT 5`) dari bank soal di lesson tersebut.
 3. **Passing Grade**: 
@@ -17,8 +17,10 @@ Dokumen ini berisi spesifikasi arsitektur, skema database, logika bisnis, dan RE
    - **Lexical Resource (25%)**: Kesesuaian variasi kata dengan model jawaban.
    - *(Note: Penilaian Fluency & Coherence dihapus total)*.
 5. **Status Update**:
-   - Jika LULUS $\rightarrow$ Status lesson di-update menjadi `PASSED` (Centang Hijau).
-   - Jika GAGAL $\rightarrow$ Status lesson tetap `NOT_PASSED`. Pengguna dapat mengulang sesi dengan 5 soal acak baru.
+   - Jika LULUS ($correct\_count \ge 4$ dari 5) $\rightarrow$ Status lesson di-update menjadi `PASSED` (Centang Hijau).
+   - Jika GAGAL $\rightarrow$ tetap `NOT_PASSED`, **kecuali** lesson sudah pernah `PASSED` (prinsip **No-Demotion** — status tidak pernah turun).
+   - Pengguna dapat mengulang sesi dengan 5 soal acak baru.
+6. **Sesi & Progress Predictor**: `GET /curriculum/lessons/{id}/session` mencatat record `practice_sessions`; `POST /curriculum/lessons/{id}/complete` mengisi metrik sesi dan memantik kalkulasi ulang `/user/progress-predictor` (lihat `PROGRESS_PREDICTOR_SPEC.md`).
 
 ---
 
@@ -41,6 +43,7 @@ Dokumen ini berisi spesifikasi arsitektur, skema database, logika bisnis, dan RE
 | `lesson_number` | INT | Not Null | Nomor Lesson |
 | `title` | VARCHAR(150) | Not Null | Judul / Fokus Lesson |
 | `difficulty` | ENUM | `'Easy'`, `'Medium'`, `'Difficult'` | Tingkat kesulitan |
+| `is_active` | BOOLEAN | Not Null, Default true | Draft/arsip dikecualikan dari katalog & predictor |
 
 ### Table: `questions`
 | Field | Type | Attributes | Description |
@@ -104,7 +107,7 @@ Mengambil 5 soal acak dari lesson yang dipilih.
 
 HTTP Method: GET
 
-Endpoint: /api/v1/lessons/:lesson_id/session
+Endpoint: /api/v1/curriculum/lessons/:lesson_id/session
 
 Headers: Authorization: Bearer <token>
 
@@ -113,6 +116,7 @@ Response Body:
 JSON
 {
   "status": "success",
+  "message": "Sesi latihan dimulai",
   "session_id": "SESS-98234712",
   "lesson_id": 101,
   "questions": [
@@ -129,52 +133,79 @@ JSON
     // ... total 5 questions
   ]
 }
-C. Evaluate Answer & Finalize Session
-Mengirim transkrip audio jawaban siswa untuk dievaluasi oleh AI dan memperbarui status lesson.
 
-HTTP Method: POST
+> `GET` ini **membuat record `practice_sessions`** (session stateless tidak lagi — metrik sesi
+> diisi saat `complete`). Error: **404** `"Lesson tidak ditemukan."`
 
-Endpoint: /api/v1/lessons/:lesson_id/evaluate
+### C.1. Evaluate One Answer (Per-Question)
+Menilai **satu** jawaban dan menyimpannya ke `curriculum_evaluation_logs` (kelulusan ditentukan di Complete).
 
-Headers: Authorization: Bearer <token>
-
-Request Body:
-
-JSON
+* **HTTP Method**: `POST`
+* **Endpoint**: `/api/v1/curriculum/lessons/:lesson_id/evaluate-question`
+* **Headers**: `Authorization: Bearer <token>`
+* **Request Body**:
+```json
 {
   "session_id": "SESS-98234712",
-  "answers": [
-    {
-      "question_id": 501,
-      "user_transcript": "In my opinion schools focus on foreign language early because children learn faster."
-    },
-    {
-      "question_id": 504,
-      "user_transcript": "Yes adults face obstacles but they can learn foreign language if they practice."
-    }
-    // ... total 5 answers
-  ]
+  "question_id": 501,
+  "user_transcript": "In my opinion schools focus on foreign language early because children learn faster."
 }
-Response Body:
-
-JSON
+```
+* **Response (200 OK)**:
+```json
 {
   "status": "success",
-  "session_result": {
-    "correct_count": 4,
-    "total_questions": 5,
-    "is_passed": true, // true jika correct_count >= 4
-    "lesson_status": "PASSED"
-  },
-  "evaluations": [
-    {
-      "question_id": 501,
-      "is_correct": true,
-      "score": 85,
-      "key_point_detected": true,
-      "key_point_target": "focus on / foreign language",
-      "grammar_feedback": "Sentence structure is correct.",
-      "vocabulary_feedback": "Good use of targeted collocations."
-    }
-  ]
+  "message": "Evaluasi soal tersimpan",
+  "data": {
+    "question_id": 501,
+    "is_correct": true,
+    "score": 85,
+    "key_point_detected": true,
+    "key_point_target": "focus on / foreign language",
+    "grammar_feedback": "Sentence structure is correct.",
+    "vocabulary_feedback": "Good use of targeted collocations.",
+    "suggested_answer": ""
+  }
 }
+```
+- `score` per soal = 0–100; `is_correct = true` bila `key_point_detected && score >= 80`.
+- Satu `question_id` hanya boleh dievaluasi sekali per `session_id` (ulang → 422).
+- Error 404 lesson tidak ditemukan; 422 soal bukan milik lesson / sudah dievaluasi / LLM tidak tersedia.
+
+### C.2. Complete Lesson Session (Finalize Passing Grade)
+Menghitung kelulusan dari seluruh jawaban sesi & memperbarui status lesson.
+
+* **HTTP Method**: `POST`
+* **Endpoint**: `/api/v1/curriculum/lessons/:lesson_id/complete`
+* **Headers**: `Authorization: Bearer <token>`
+* **Request Body**: `{ "session_id": "SESS-98234712" }`
+* **Response (200 OK)**:
+```json
+{
+  "status": "success",
+  "message": "Evaluasi selesai",
+  "data": {
+    "session_result": {
+      "correct_count": 4,
+      "total_questions": 5,
+      "is_passed": true,
+      "lesson_status": "PASSED"
+    },
+    "evaluations": [
+      {
+        "question_id": 501,
+        "is_correct": true,
+        "score": 85,
+        "key_point_detected": true,
+        "key_point_target": "focus on / foreign language",
+        "grammar_feedback": "Sentence structure is correct.",
+        "vocabulary_feedback": "Good use of targeted collocations.",
+        "suggested_answer": ""
+      }
+    ]
+  }
+}
+```
+- `is_passed = true` bila `correct_count >= 4`; status hanya naik ke `PASSED` (no-demotion).
+- Wajib minimal 1 `evaluate-question` pada sesi (belum ada → 422).
+- Efek samping: metrik `practice_sessions` diisi (score avg, `is_passed`, `total/correct_keypoints`) dan `user_progress_predictors` di-*recalculate*.

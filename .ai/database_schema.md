@@ -22,6 +22,9 @@ Dibangun di atas MySQL (environment lokal: `C:\laragon\www\topspeak`, database `
 [ personal_access_tokens ] (Sanctum)
 [ sessions ] (web session)
 [ cache / jobs ]
+[ curriculum_evaluation_logs ] >─── [ lessons / questions ]  (evaluasi kurikulum IELTS)
+[ practice_sessions ] >─── [ lessons ]  (metrik sesi kurikulum)
+[ user_progress_predictors ]  (cache predictor IELTS, 1 baris per user)
 ```
 
 Keterangan arah relasi:
@@ -62,6 +65,9 @@ Keterangan arah relasi:
 | cefr_level | string(2) default `A1` | |
 | regex_pattern | text | Pola RegEx deteksi error |
 | description | text | Penjelasan untuk UI/Tutor |
+| rule_type | string(20) default `error` | `error` = pola kesalahan (match → violation); `positive` = pola benar (match → skor benar) |
+| source | string(20) default `manual` | `manual`, `user` (auto-capture), `llm` (dihasilkan AI) |
+| llm_meta | text NULL | JSON hasil respons LLM saat generate rule |
 | is_active | boolean (true) | |
 | created_at / updated_at | timestamps | |
 
@@ -75,8 +81,9 @@ Index: `(rule_code, cefr_level)`
 | test_type | enum(`ADAPTIVE`,`IELTS_SPEAKING`,`TOEFL_IBT`) default `ADAPTIVE` | |
 | part_number | integer default `1` | IELTS Part 1-3 / TOEFL Task 1-4 |
 | cefr_level | string(2) default `A1` | |
-| question_text | text | |
-| required_vocab_tags | json | Tag kosa kata untuk skor Fluency |
+| question_text | text UNIQUE | Pertanyaan (unique index `question_banks_question_text_unique`) |
+| standard_answer | text NULL | Jawaban standar (migration `add_standard_answer_to_question_banks`) |
+| required_vocab_tags | json | Tag kosa kata |
 | is_starter | boolean (false) | Soal pembuka Sesi 1 / Free Tier |
 | topic_category | string(100) default `General Conversation` | |
 | metadata | json NULL | `audio_url`, reading passage, cue card |
@@ -118,6 +125,7 @@ Index: `(word, cefr_level, topic_category)`
 | user_id | bigint FK `users.id`, `onDelete cascade` | |
 | mode | enum(`ADAPTIVE`,`THEMATIC`,`IELTS_SPEAKING`,`TOEFL_IBT`) default `ADAPTIVE` | IELTS/TOEFL = simulasi ujian |
 | topic_id | bigint FK `thematic_topics.id` NULL, `onDelete set null` | Wajib saat THEMATIC |
+| lesson_id | bigint FK `lessons.id` NULL, `onDelete set null` | Terisi saat sesi bersumber dari kurikulum IELTS (migration `add_lesson_id_to_conversation_sessions`) |
 | start_level | string(2) default `A1` | |
 | current_level | string(2) default `A1` | Naik real-time saat promosi |
 | total_turns_planned | integer default `5` | |
@@ -177,10 +185,10 @@ Index: `(user_id, test_type)`
 |-------|------|------------|
 | id | bigint PK | |
 | user_id | bigint FK `users.id`, `onDelete cascade` | |
-| session_id | uuid | |
+| session_id | uuid NULL | Nullable (migration `make_level_history_session_nullable`); promosi otomatis tanpa sesi) |
 | previous_level | string(2) | |
 | new_level | string(2) | |
-| trigger_score | integer | Akumulasi 4-turn (≥6, maks 8) |
+| trigger_score | integer NULL | Akumulasi 4-turn (≥6, maks 8) — nullable |
 | promotion_reason | text NULL | Alasan promosi |
 | created_at / updated_at | timestamps | |
 
@@ -237,8 +245,8 @@ Index: `(user_id, status, is_active)` + unique `(merchant_order_id)`
 |-------|------|------------|
 | id | bigint PK | |
 | unit_number | integer UNIQUE | Nomor unit (1..12) |
-| part | enum(`1`,`2`,`3`) | Bagian IELTS Speaking |
-| unit_title | string(150) | Judul tema (mis. `Studies`) |
+| part | unsignedTinyInteger | Bagian IELTS Speaking (1, 2, 3) — **bukan enum**; ada index `(part)` |
+| title | string(100) | Judul tema (mis. `Studies`) |
 | outcome | text | Capaian unit |
 | created_at / updated_at | timestamps | |
 
@@ -251,7 +259,7 @@ Relasi: one-to-many ke `lessons`.
 | id | bigint PK | |
 | unit_id | bigint FK `units.id`, `onDelete cascade` | |
 | lesson_number | integer | Nomor urut dalam unit |
-| lesson_title | string(150) | mis. `Collocations: foreign language, focus on` |
+| title | string(150) | mis. `Collocations: foreign language, focus on` |
 | difficulty | enum(`Easy`,`Medium`,`Difficult`) | `LessonDifficulty` |
 | is_active | boolean (true) | lesson draft/archived dikecualikan dari `total_lessons` predictor |
 | created_at / updated_at | timestamps | |
@@ -268,7 +276,7 @@ Relasi: one-to-many ke `questions`; many-to-many via `user_lesson_progress` ke `
 | lesson_id | bigint FK `lessons.id`, `onDelete cascade` | |
 | question_text | text | Pertanyaan |
 | model_answer | text | Jawaban contoh untuk rubrik LLM |
-| key_point | string(150) NULL | Target kolokasi/poin kunci (dicek LLM) |
+| key_point | string(100) NOT NULL | Target kolokasi/poin kunci (dicek LLM) |
 | created_at / updated_at | timestamps | |
 
 Index: `(lesson_id)`.
@@ -281,8 +289,9 @@ Index: `(lesson_id)`.
 | user_id | bigint FK `users.id`, `onDelete cascade` | |
 | lesson_id | bigint FK `lessons.id`, `onDelete cascade` | |
 | status | enum(`NOT_PASSED`,`PASSED`) default `NOT_PASSED` | `LessonProgressStatus` |
-| passed_at | timestamp NULL | Saat pertama PASSED |
 | created_at / updated_at | timestamps | |
+
+> Kolom `passed_at` **tidak ada** di migrasi; kelulusan terdeteksi dari `status = PASSED`.
 
 Index: unique `(user_id, lesson_id)`.
 
@@ -303,7 +312,7 @@ Index: unique `(user_id, lesson_id)`.
 | grammar_feedback / vocabulary_feedback | text nullable | Umpan balik AI |
 | suggested_answer | text nullable | Jawaban contoh saat salah |
 
-Index: `(user_id)`, `(session_id)`, `(lesson_id)`.
+Index: unique `(session_id, question_id)` — mencegah duplikasi evaluasi per soal per sesi; plus index `(session_id)`, FK `(user_id)`, `(lesson_id)`, `(question_id)`.
 
 ### 2.17 `practice_sessions` — Metrik sesi latihan kurikulum (Progress Predictor)
 
@@ -342,7 +351,41 @@ Index: unique `(user_id, session_id)`, `(user_id, is_passed)`.
 | last_calculated_at | timestamp nullable | kalkulasi terakhir |
 | created_at / updated_at | timestamps | |
 
-### 2.19 Tabel bawaan Laravel/Sanctum
+### 2.19 Tabel fitur premium, gateway, & support
+
+**`subscription_plans`** — Master paket langganan dinamis (properti dari `/subscriptions/plans`):
+
+| Kolom | Tipe | Keterangan |
+|-------|------|------------|
+| id | bigint PK | |
+| name | string(100) | Nama paket (mis. `Premium Bulanan`) |
+| description | text NULL | Deskripsi paket |
+| features | json NULL | Daftar fitur (list string) |
+| price_original | decimal(12,2) | Harga asli |
+| price_discount | decimal(12,2) NULL | Harga diskon (null = tidak diskon) |
+| type | string(10) default `TIME` | `TIME` \| `QUOTA` |
+| duration_value | unsignedInteger NULL | Nilai durasi (TIME) |
+| duration_unit | string(10) NULL | `DAY` \| `MONTH` \| `YEAR` (TIME) |
+| quota_sessions | unsignedInteger NULL | Jumlah sesi (QUOTA) |
+| status | string(10) default `ACTIVE` | `ACTIVE` \| `ARCHIVED` |
+| badge_promo | string(100) NULL | Badge promo (mis. `Diskon 30%`) |
+| sort_order | unsignedInteger (0) | Urutan tampil |
+
+Index: `(status, sort_order)`.
+
+**`payment_gateway_settings`** — Konfigurasi gateway Duitku (baris tunggal id=1; value NULL = fallback ke config/`.env`):
+`id, is_enabled (true), merchant_code (40 NULL), api_key (255 NULL), sandbox (NULL), notify_url (500 NULL), return_url (500 NULL), timestamps`.
+
+**`user_session_quota_logs`** — Audit log penyesuaian sisa sesi oleh admin:
+`id, user_id FK, admin_id FK NULL (users, onDelete set null), before_count (0), after_count (0), delta (0), reason (255 NULL), timestamps`. Index `(user_id, created_at)` & `(admin_id, created_at)`.
+
+**`filler_words`** — Bank kata/ekspresi filler (kategori hesitation/discourse/phrase):
+`id, phrase (100) UNIQUE, category (50) default hesitation, is_active (true), timestamps`. Index `(category, is_active)`.
+
+**`llm_settings`** — Konfigurasi LLM (baris tunggal id=1; NULL = fallback config/`.env`):
+`id, is_enabled (false), provider (30, default openai), base_url (255 NULL), api_key (255 NULL), model (100 NULL), timeout (15), timestamps`.
+
+### 2.20 Tabel bawaan Laravel/Sanctum
 
 - **`personal_access_tokens`** (Sanctum): token `id, tokenable_type, tokenable_id, name, token(unique), abilities, last_used_at, expires_at, timestamps` — dibuat migration `create_personal_access_tokens`.
 - **`sessions`** (web session auth admin): `id PK, user_id, ip_address, user_agent, payload, last_activity`.
@@ -365,23 +408,43 @@ Index: unique `(user_id, session_id)`, `(user_id, is_passed)`.
 
 ---
 
-## 4. Migrasi (urutan)
+## 4. Migrasi (daftar urutan jalannya)
 
-1. `0001_01_01_000000_create_users_table` — users + TopSpeak fields + password_reset_tokens + sessions
-2. `0001_01_01_000001_create_cache_table`
-3. `0001_01_01_000002_create_jobs_table`
-4. `2026_01_01_000000_create_topspeak_core_tables` — grammar_rules, question_banks, vocabulary_bank, thematic_topics, conversation_logs, user_level_histories, pending_grammar_rules, user_subscriptions, app_configurations
-5. `2026_08_13_053807_create_personal_access_tokens_table` (Sanctum)
-6. `2026_08_13_060000_add_is_admin_to_users_table`
-7. `2026_08_13_063000_create_conversation_sessions_table`
-8. `2026_08_13_070000_add_payment_fields_to_user_subscriptions_table` — merchant_order_id, amount, payment_status, payment_method, checkout_url
-9. `2026_08_20_010000_drop_score_fluency_from_conversation_logs` — hapus kolom `score_fluency`
-10. `2026_08_21_010000_extend_conversation_sessions_mode` — mode tambah `IELTS_SPEAKING`, `TOEFL_IBT`
-11. `2026_08_21_020000_create_assessment_logs_table` — tabel `assessment_logs` (histori evaluasi IELTS/TOEFL)
-12. `2026_08_22_010000_create_ielts_curriculum_tables` — `units`, `lessons`, `questions`, `user_lesson_progress` (kurikulum IELTS)
-13. `2026_09_02_050000_create_curriculum_evaluation_logs` — `curriculum_evaluation_logs`
-14. `2026_09_10_000001_create_practice_sessions_table` — `practice_sessions` (Progress Predictor)
-15. `2026_09_10_000002_add_is_active_to_lessons_table` — `lessons.is_active`
-16. `2026_09_10_000003_create_user_progress_predictors_table` — `user_progress_predictors` (cache predictor)
+- `0001_01_01_000000_create_users_table` — users + TopSpeak fields + password_reset_tokens + sessions
+- `0001_01_01_000001_create_cache_table`
+- `0001_01_01_000002_create_jobs_table`
+- `2026_01_01_000000_create_topspeak_core_tables` — grammar_rules, question_banks, vocabulary_bank, thematic_topics, conversation_logs, user_level_histories, pending_grammar_rules, user_subscriptions, app_configurations
+- `2026_08_13_053807_create_personal_access_tokens_table` (Sanctum)
+- `2026_08_13_060000_add_is_admin_to_users_table`
+- `2026_08_13_063000_create_conversation_sessions_table`
+- `2026_08_13_070000_add_payment_fields_to_user_subscriptions_table` — merchant_order_id, amount, payment_status, payment_method, checkout_url
+- `2026_08_15_090000_add_unique_question_text_to_question_banks_table`
+- `2026_08_15_100000_add_standard_answer_to_question_banks_table`
+- `2026_08_16_000000_create_filler_words_table`
+- `2026_08_18_000000_add_rule_type_to_grammar_rules_table` — rule_type, source, llm_meta
+- `2026_08_18_010000_create_llm_settings_table`
+- `2026_08_18_020000_add_suggested_correct_sentence_to_pending_grammar_rules_table`
+- `2026_08_20_010000_drop_score_fluency_from_conversation_logs`
+- `2026_08_21_010000_extend_conversation_sessions_mode` — mode INTERVIEW → IELTS_SPEAKING/TOEFL_IBT
+- `2026_08_21_020000_create_assessment_logs_table`
+- `2026_08_22_010000_create_ielts_curriculum_tables` — units, lessons, questions, user_lesson_progress
+- `2026_09_02_010000_add_curriculum_question_id_to_conversation_logs`
+- `2026_09_02_020000_add_lesson_id_to_conversation_sessions`
+- `2026_09_02_030000_add_curriculum_evaluation_to_conversation_logs`
+- `2026_09_02_040000_add_suggested_answer_to_conversation_logs`
+- `2026_09_02_050000_create_curriculum_evaluation_logs`
+- `2026_09_06_000000_create_subscription_plans_table`
+- `2026_09_06_000001_create_level_access_configs_table` *(di-drop `2026_09_07_000000_drop_level_access_configs_table`)*
+- `2026_09_06_000002_create_user_session_quota_logs_table`
+- `2026_09_06_000003_add_plan_fields_to_user_subscriptions_table` — plan_id, plan_name, dst.
+- `2026_09_07_000000_drop_level_access_configs_table`
+- `2026_09_07_000001_make_level_history_session_nullable` — user_level_histories.session_id & trigger_score nullable
+- `2026_09_07_000002_add_free_tier_settings_to_app_configurations_table` — initial_free_sessions & free_tier_* settings
+- `2026_09_07_000003_drop_wa_verification_fields` — hapus kolom verifikasi WA/OTP (fitur dihapus total)
+- `2026_09_08_000001_create_payment_gateway_settings_table`
+- `2026_09_08_000002_remove_quota_plans` — hapus model paket QUOTA lama (kasus penggunaan hanya TIME)
+- `2026_09_10_000001_create_practice_sessions_table` — metrik sesi kurikulum (Progress Predictor)
+- `2026_09_10_000002_add_is_active_to_lessons_table` — lessons.is_active
+- `2026_09_10_000003_create_user_progress_predictors_table` — cache predictor IELTS
 
 > PostgreSQL disebut di dokumen awal, namun environment aktual memakai **MySQL 8.4** (Laragon). Semua tipe di atas sudah diverifikasi terhadap migrasi yang berjalan (`php artisan migrate`).

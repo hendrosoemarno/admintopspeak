@@ -71,9 +71,16 @@ Fitur kurikulum (spesifikasi `IELTS.md`) menyediakan latihan berstruktur
 2. `GET /curriculum` menampilkan seluruh unit + lesson + status per user.
 3. `GET /curriculum/lessons/{id}/session` mengambil **5 soal acak** milik lesson
    (`QuestionRepository::randomForLesson`, limit `SESSION_QUESTION_LIMIT = 5`)
-   + `session_id` acak. Sesi **tidak disimpan** — stateless.
-4. `POST /curriculum/lessons/{id}/evaluate` menerima `session_id` + `answers`
-   (1–5 item). Setiap `question_id` **wajib** milik lesson tersebut (selain itu **422**).
+   dan **membuat record `practice_sessions`** (`session_id` acak `SESS-XXXXXXXX`).
+4. `POST /curriculum/lessons/{id}/evaluate-question` menilai **satu** jawaban
+   (`session_id` + `question_id` + `user_transcript`) dan menyimpannya ke
+   `curriculum_evaluation_logs`. `question_id` **wajib** milik lesson tersebut dan
+   hanya boleh dievaluasi **sekali per sesi** (selain itu **422**).
+5. `POST /curriculum/lessons/{id}/complete` (body `session_id`) menggabungkan hasil
+   evaluasi sesi, menentukan kelulusan (`correct_count >= 4`), memperbarui
+   `user_lesson_progress`, mengisi metrik `practice_sessions` (score rata-rata,
+   `is_passed`, `total/correct_keypoints`), lalu memantik
+   `ProgressPredictorService::recalculate`.
 
 ### B. Grading per Soal (LLM, rubric `ielts_lesson_evaluator.txt`)
 | Dimensi | Bobot |
@@ -126,11 +133,16 @@ Saat `step_state = 'WAITING_REPETITION'`, transkrip pengguna berikutnya dievalua
 
 ### A. Alur Kuota Pengguna
 1. **Status Guest (Unverified Device):**
-   - Menerima kuota awal 1 Sesi Gratis (`remaining_trial_sessions = 1`).
-2. **Verifikasi WhatsApp (Claim Bonus):**
-   - Setelah memverifikasi OTP WhatsApp, pengguna menerima tambahan 4 Sesi Gratis (Total 5 Sesi Free Tier).
-3. **Pengurangan Kuota:**
-   - Kuota `remaining_trial_sessions` berkurang 1 setiap kali pengguna menyelesaikan *Turn 1* pada sebuah sesi baru.
+   - Menerima kuota awal dari `AppConfiguration::initialFreeSessions()`
+     (default **1** Sesi, `remaining_trial_sessions = 1`); admin dapat mengubah
+     di App Config (Free Tier Settings).
+2. **Pengurangan Kuota:**
+   - Kuota `remaining_trial_sessions` berkurang 1 setiap kali pengguna
+     menyelesaikan *Turn 1* pada sebuah sesi baru.
+   - Premium aktif (`users.isPremiumActive()`) → kuota tidak dikurangi.
+3. **Dihapus:** Fitur verifikasi WhatsApp/OTP (klaim bonus +4 sesi) **tidak ada lagi**
+   sejak migrasi `2026_09_07_000003_drop_wa_verification_fields.php`.
+   Tidak ada mekanisme penambahan kuota berbasis OTP/WhatsApp.
 
 ### B. Pemicu Paywall (Quota Exhausted)
 - Jika `remaining_trial_sessions = 0` dan `subscription_status = 'FREE'`:

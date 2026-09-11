@@ -22,7 +22,7 @@ RULES:
 - key_point_detected must be false if the candidate never used the target collocation/phrase (even a partial or influenced form counts as detected).
 - Base grammar and lexical scores against the model answer's range and complexity.
 - Ignore capitalization entirely: never mention capital/lowercase letters in grammar_feedback or vocabulary_feedback, and never penalize grammar_score or lexical_score for case mistakes (e.g. "i" vs "I"). Focus only on real grammar, spelling of other words, and word choice.
-- When the answer is not correct (key_point_detected false or score below 60), write suggested_answer: a complete, correct single-sentence answer that reuses the candidate's own content and naturally includes the target key point. Use proper capitalization and spelling in suggested_answer.
+- When the answer is not correct (key_point_detected false or score below 80), write suggested_answer: a complete, correct single-sentence answer that reuses the candidate's own content and naturally includes the target key point. Use proper capitalization and spelling in suggested_answer.
 - When the answer is already correct, suggested_answer must be an empty string.
 
 OUTPUT FORMAT:
