@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use App\Enums\SessionMode;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable([
+class ConversationSession extends Model
+{
+    protected $fillable = [
     'id', 'user_id', 'mode', 'topic_id', 'lesson_id',
     'start_level', 'current_level', 'total_turns_planned',
     'status', 'completed_at',
-])]
-class ConversationSession extends Model
-{
+];
     use HasUuids;
 
     protected $keyType = 'string';

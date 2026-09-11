@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -15,6 +16,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Konsistenkan scheme (http/https) di semua URL dari APP_URL.
+        $appUrl = rtrim((string) config('app.url'), '/');
+        if ($scheme = parse_url($appUrl, PHP_URL_SCHEME)) {
+            URL::forceScheme($scheme);
+        }
+
+        // Deploy subdirektori (mis. https://topexam.id/admintopspeak):
+        // paksa semua URL (route incl. Livewire JS, asset) menyertakan prefix folder.
+        if (parse_url($appUrl, PHP_URL_PATH)) {
+            URL::forceRootUrl($appUrl);
+        }
+
         // Anti brute-force login: maksimal 5 percobaan per menit per email + IP.
         RateLimiter::for('login', function (Request $request) {
             return Limit::perMinute(5)->by(

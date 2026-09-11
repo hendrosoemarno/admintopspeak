@@ -4,17 +4,16 @@ namespace App\Models;
 
 use App\Enums\CefrLevel;
 use App\Enums\TestType;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable([
+class QuestionBank extends Model
+{
+    protected $fillable = [
     'test_type', 'part_number', 'cefr_level',
     'question_text', 'standard_answer', 'required_vocab_tags', 'is_starter',
     'topic_category', 'metadata',
-])]
-class QuestionBank extends Model
-{
+];
     protected function casts(): array
     {
         return [

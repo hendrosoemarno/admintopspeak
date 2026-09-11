@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['is_enabled', 'provider', 'base_url', 'api_key', 'model', 'timeout'])]
 class LlmSetting extends Model
 {
+    protected $fillable = ['is_enabled', 'provider', 'base_url', 'api_key', 'model', 'timeout'];
     protected function casts(): array
     {
         return [

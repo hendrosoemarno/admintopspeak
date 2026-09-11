@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use App\Enums\LessonProgressStatus;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'lesson_id', 'status'])]
 class UserLessonProgress extends Model
 {
+    protected $fillable = ['user_id', 'lesson_id', 'status'];
     protected function casts(): array
     {
         return [

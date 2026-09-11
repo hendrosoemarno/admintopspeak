@@ -5,18 +5,17 @@ namespace App\Models;
 use App\Enums\PlanStatus;
 use App\Enums\PlanType;
 use App\Enums\SubscriptionStatus;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
-#[Fillable([
+class SubscriptionPlan extends Model
+{
+    protected $fillable = [
     'name', 'description', 'features', 'price_original', 'price_discount',
     'type', 'duration_value', 'duration_unit',
     'status', 'badge_promo', 'sort_order',
-])]
-class SubscriptionPlan extends Model
-{
+];
     protected function casts(): array
     {
         return [

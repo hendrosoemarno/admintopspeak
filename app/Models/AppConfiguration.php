@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable([
+class AppConfiguration extends Model
+{
+    protected $fillable = [
     'latest_app_version', 'min_required_version',
     'is_force_update', 'play_store_url', 'update_message',
     'free_tier_initial_sessions',
-])]
-class AppConfiguration extends Model
-{
+];
     protected function casts(): array
     {
         return [

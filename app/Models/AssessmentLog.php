@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable([
-    'user_id', 'test_type', 'task_type', 'prompt_question',
-    'user_transcript', 'duration_seconds', 'overall_score',
-    's_total', 'final_fluency', 'is_on_topic', 'raw_response_json',
-])]
-#[Hidden(['user_id', 'raw_response_json'])]
 class AssessmentLog extends Model
 {
+    protected $fillable = [
+        'user_id', 'test_type', 'task_type', 'prompt_question',
+        'user_transcript', 'duration_seconds', 'overall_score',
+        's_total', 'final_fluency', 'is_on_topic', 'raw_response_json',
+    ];
+
+    protected $hidden = ['user_id', 'raw_response_json'];
+
     protected function casts(): array
     {
         return [

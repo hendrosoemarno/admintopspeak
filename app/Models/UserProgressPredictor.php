@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable([
+class UserProgressPredictor extends Model
+{
+    protected $fillable = [
     'user_id',
     'completion_score', 'mastery_score', 'accuracy_score', 'overall_index',
     'predicted_band', 'status_label', 'color_code',
     'passed_lessons_count', 'is_ready', 'last_calculated_at',
-])]
-class UserProgressPredictor extends Model
-{
+];
     protected function casts(): array
     {
         return [

@@ -6,25 +6,25 @@ use App\Enums\CefrLevel;
 use App\Enums\SubscriptionStatus;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable([
-    'name', 'email', 'password',
-    'device_uuid', 'phone_number',
-    'current_cefr_level', 'remaining_trial_sessions',
-    'subscription_status', 'subscription_expires_at', 'is_admin',
-])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $fillable = [
+        'name', 'email', 'password',
+        'device_uuid', 'phone_number',
+        'current_cefr_level', 'remaining_trial_sessions',
+        'subscription_status', 'subscription_expires_at', 'is_admin',
+    ];
+
+    protected $hidden = ['password', 'remember_token'];
 
     protected function casts(): array
     {

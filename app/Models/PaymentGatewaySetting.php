@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['is_enabled', 'merchant_code', 'api_key', 'sandbox', 'notify_url', 'return_url'])]
 class PaymentGatewaySetting extends Model
 {
+    protected $fillable = ['is_enabled', 'merchant_code', 'api_key', 'sandbox', 'notify_url', 'return_url'];
     protected function casts(): array
     {
         return [

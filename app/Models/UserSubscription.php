@@ -5,19 +5,18 @@ namespace App\Models;
 use App\Enums\PaymentStatus;
 use App\Enums\SubscriptionSource;
 use App\Enums\SubscriptionStatus;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable([
+class UserSubscription extends Model
+{
+    protected $fillable = [
     'user_id', 'plan_id', 'source', 'admin_note',
     'status', 'started_at', 'expires_at',
     'payment_provider', 'payment_ref', 'is_active',
     'merchant_order_id', 'amount', 'payment_status',
     'payment_method', 'checkout_url',
-])]
-class UserSubscription extends Model
-{
+];
     protected function casts(): array
     {
         return [

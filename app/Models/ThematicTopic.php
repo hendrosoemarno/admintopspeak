@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable([
-    'topic_name', 'roleplay_persona', 'selected_level',
-    'context_vocab_tags', 'is_active', 'created_by',
-])]
 class ThematicTopic extends Model
 {
+    protected $fillable = [
+    'topic_name', 'roleplay_persona', 'selected_level',
+    'context_vocab_tags', 'is_active', 'created_by',
+];
     protected function casts(): array
     {
         return [

@@ -3,20 +3,19 @@
 namespace App\Models;
 
 use App\Enums\SessionStepState;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable([
+class ConversationLog extends Model
+{
+    protected $fillable = [
     'user_id', 'session_id', 'turn_number', 'question_id', 'curriculum_question_id',
     'user_response_text', 'score_word_count', 'score_grammar',
     'total_turn_score', 'curriculum_score', 'key_point_detected', 'key_point_target',
     'grammar_feedback', 'vocabulary_feedback', 'suggested_answer', 'has_error',
     'user_said_text', 'correct_way_text', 'step_state',
     'expected_repetition_text', 'repetition_attempts', 'repetition_success',
-])]
-class ConversationLog extends Model
-{
+];
     protected function casts(): array
     {
         return [

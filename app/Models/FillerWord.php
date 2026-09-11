@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['phrase', 'category', 'is_active'])]
 class FillerWord extends Model
 {
+    protected $fillable = ['phrase', 'category', 'is_active'];
     protected function casts(): array
     {
         return [

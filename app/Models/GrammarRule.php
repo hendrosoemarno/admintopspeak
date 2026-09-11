@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use App\Enums\CefrLevel;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['rule_code', 'category', 'rule_type', 'source', 'llm_meta', 'cefr_level', 'regex_pattern', 'description', 'is_active'])]
 class GrammarRule extends Model
 {
+    protected $fillable = ['rule_code', 'category', 'rule_type', 'source', 'llm_meta', 'cefr_level', 'regex_pattern', 'description', 'is_active'];
     protected function casts(): array
     {
         return [
