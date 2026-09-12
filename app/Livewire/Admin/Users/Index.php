@@ -71,6 +71,10 @@ class Index extends Component
 
     public string $durationNote = '';
 
+    public bool $showDeleteModal = false;
+
+    public ?int $deleteUserId = null;
+
     public function queryString(): array
     {
         return [
@@ -191,6 +195,61 @@ class Index extends Component
 
         $this->dispatch('flash', message: "Sisa masa aktif {$user->name} diperbarui.");
         $this->closeDurationModal();
+    }
+
+    public function openDeleteModal(int $userId): void
+    {
+        $user = User::withCount(['conversationLogs', 'levelHistories', 'subscriptions'])
+            ->findOrFail($userId);
+
+        $this->deleteUserId = $user->id;
+        $this->showDeleteModal = true;
+    }
+
+    public function closeDeleteModal(): void
+    {
+        $this->showDeleteModal = false;
+        $this->deleteUserId = null;
+    }
+
+    #[Computed]
+    public function deletingUser(): ?User
+    {
+        if (! $this->deleteUserId) {
+            return null;
+        }
+
+        return User::withCount(['conversationLogs', 'levelHistories', 'subscriptions'])
+            ->with('activeSubscription.plan')
+            ->find($this->deleteUserId);
+    }
+
+    public function deleteUser(): void
+    {
+        $user = User::withCount(['conversationLogs', 'levelHistories', 'subscriptions'])
+            ->findOrFail($this->deleteUserId);
+
+        if ($user->id === auth()->id()) {
+            $this->dispatch('flash', message: 'Tidak bisa menghapus akun yang sedang login.');
+            $this->closeDeleteModal();
+
+            return;
+        }
+
+        if ($user->is_admin) {
+            $this->dispatch('flash', message: 'Tidak bisa menghapus akun admin.');
+            $this->closeDeleteModal();
+
+            return;
+        }
+
+        // Tokens Sanctum memakai relasi polymorphic (tanpa FK), hapus manual.
+        $user->tokens()->delete();
+        $user->delete();
+
+        $this->dispatch('flash', message: "User {$user->name} beserta seluruh datanya dihapus.");
+        $this->closeDeleteModal();
+        $this->resetPage();
     }
 
     public function quotaLogs(int $userId): Collection

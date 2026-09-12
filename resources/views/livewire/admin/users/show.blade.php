@@ -11,18 +11,26 @@
                     <div class="mt-1 text-xs text-slate-400 font-mono">{{ $user->device_uuid }}</div>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">{{ $user->current_cefr_level->label() }}</span>
-                <span @class(['px-3 py-1 rounded-full text-xs font-semibold', 'bg-slate-100 text-slate-600' => $user->subscription_status === \App\Enums\SubscriptionStatus::FREE || !$user->isPremiumActive(), 'bg-green-100 text-green-700' => $user->isPremiumActive()])>
-                    @if ($user->subscription_status === \App\Enums\SubscriptionStatus::FREE)
-                        Free Tier
-                    @elseif ($user->activeSubscription?->plan?->name)
-                        {{ $user->activeSubscription->plan->name }}
-                    @else
-                        Premium
-                    @endif
-                </span>
-                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700">Kuota: {{ $user->remaining_trial_sessions }} sesi</span>
+            <div class="flex flex-col sm:flex-row items-end sm:items-center gap-2">
+                <div class="flex gap-2 order-2 sm:order-1">
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">{{ $user->current_cefr_level->label() }}</span>
+                    <span @class(['px-3 py-1 rounded-full text-xs font-semibold', 'bg-slate-100 text-slate-600' => $user->subscription_status === \App\Enums\SubscriptionStatus::FREE || !$user->isPremiumActive(), 'bg-green-100 text-green-700' => $user->isPremiumActive()])>
+                        @if ($user->subscription_status === \App\Enums\SubscriptionStatus::FREE)
+                            Free Tier
+                        @elseif ($user->activeSubscription?->plan?->name)
+                            {{ $user->activeSubscription->plan->name }}
+                        @else
+                            Premium
+                        @endif
+                    </span>
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700">Kuota: {{ $user->remaining_trial_sessions }} sesi</span>
+                </div>
+                <div class="flex gap-2 order-1 sm:order-2">
+                    <a href="{{ route('admin.users.index') }}" class="px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-600 hover:bg-slate-200">← Kembali</a>
+                    @unless ($user->is_admin)
+                        <button wire:click="deleteUser" wire:confirm="Hapus user ini beserta seluruh datanya? Tindakan ini tidak bisa dibatalkan." class="px-3 py-1 rounded-lg text-xs font-medium bg-red-50 text-red-600 hover:bg-red-100 border border-red-200">Hapus User</button>
+                    @endunless
+                </div>
             </div>
         </div>
     </div>

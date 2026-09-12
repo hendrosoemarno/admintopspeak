@@ -157,6 +157,7 @@
                             @endif
                             <button wire:click="openLogModal({{ $user->id }})" class="text-xs font-semibold text-slate-500 hover:text-indigo-600">Log</button>
                             <a href="{{ route('admin.users.show', $user) }}" class="text-xs font-semibold text-indigo-600 hover:underline">Detail →</a>
+                            <button wire:click="openDeleteModal({{ $user->id }})" class="text-xs font-semibold text-red-600 hover:underline">Hapus</button>
                         </td>
                     </tr>
                 @empty
@@ -245,6 +246,38 @@
                     @empty
                         <p class="text-center text-slate-500 py-6">Belum ada log penyesuaian untuk user ini.</p>
                     @endforelse
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- ===== MODAL HAPUS USER ===== --}}
+    @if ($showDeleteModal)
+        @php $deleteTarget = $this->deletingUser; @endphp
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" wire:click.self="closeDeleteModal">
+            <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200">
+                    <h3 class="font-semibold text-slate-800">Hapus User</h3>
+                    <button wire:click="closeDeleteModal" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+                </div>
+                <div class="p-5 space-y-4">
+                    <div class="text-sm text-slate-700">
+                        Yakin ingin menghapus <strong class="text-slate-900">{{ $deleteTarget?->name }}</strong>
+                        (<span class="text-slate-500">{{ $deleteTarget?->email }}</span>)?
+                    </div>
+                    <div class="text-xs text-slate-500 bg-red-50 border border-red-100 rounded-lg px-3 py-2">
+                        Seluruh data user akan terhapus permanen (tidak bisa dikembalikan):
+                        <ul class="mt-1 list-disc list-inside space-y-0.5">
+                            <li>{{ $deleteTarget?->conversation_logs_count }} conversation logs + sesi latihan</li>
+                            <li>{{ $deleteTarget?->level_histories_count }} riwayat level</li>
+                            <li>{{ $deleteTarget?->subscriptions_count }} langganan</li>
+                            <li>assessment, evaluasi kurikulum, kuota log, dsb.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 px-5 py-4 border-t border-slate-200">
+                    <button wire:click="closeDeleteModal" class="px-4 py-2 rounded-lg text-sm text-slate-600 border border-slate-300 hover:bg-slate-50">Batal</button>
+                    <button wire:click="deleteUser" class="px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700">Hapus Permanen</button>
                 </div>
             </div>
         </div>
