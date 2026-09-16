@@ -54,6 +54,8 @@ class SessionQuotaService
         $user->remaining_trial_sessions = $after;
         $user->save();
 
+        $user->syncTotalFreeSessionsGranted();
+
         UserSessionQuotaLog::create([
             'user_id' => $user->id,
             'admin_id' => $adminId,

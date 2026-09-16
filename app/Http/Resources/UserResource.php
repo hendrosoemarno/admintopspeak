@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'phone_number' => $user->phone_number,
             'current_cefr_level' => $user->current_cefr_level->value,
             'remaining_trial_sessions' => $user->remaining_trial_sessions,
+            'total_free_sessions_granted' => (int) $user->total_free_sessions_granted,
             'subscription_status' => $user->subscription_status->value,
             'subscription' => [
                 'status' => $user->subscription_status->value,

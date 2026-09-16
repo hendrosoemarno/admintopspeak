@@ -20,9 +20,21 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
         'device_uuid', 'phone_number',
-        'current_cefr_level', 'remaining_trial_sessions',
+        'current_cefr_level', 'remaining_trial_sessions', 'total_free_sessions_granted',
         'subscription_status', 'subscription_expires_at', 'is_admin',
     ];
+
+    /**
+     * Denominator kuota Free Tier: total sesi yang pernah diberikan.
+     * Selalu >= remaining supaya denominator akurat dari server.
+     */
+    public function syncTotalFreeSessionsGranted(): void
+    {
+        if ($this->total_free_sessions_granted < $this->remaining_trial_sessions) {
+            $this->total_free_sessions_granted = $this->remaining_trial_sessions;
+            $this->save();
+        }
+    }
 
     protected $hidden = ['password', 'remember_token'];
 

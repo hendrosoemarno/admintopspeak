@@ -120,6 +120,16 @@ class CurriculumApiTest extends TestCase
         ]);
     }
 
+    private function freeUser(): User
+    {
+        return User::factory()->create([
+            'current_cefr_level' => 'B1',
+            'remaining_trial_sessions' => 1,
+            'total_free_sessions_granted' => 1,
+            'subscription_status' => SubscriptionStatus::FREE,
+        ]);
+    }
+
     /**
      * Helper: submit 5 jawaban 1 per 1 via evaluate-question.
      */
@@ -491,6 +501,61 @@ class CurriculumApiTest extends TestCase
         $this->postJson('api/v1/curriculum/lessons/99999/complete', [
             'session_id' => 'SESS-MISS-COMPLETE',
         ])->assertStatus(404);
+    }
+
+    public function test_complete_consumes_free_quota_once_and_returns_remaining(): void
+    {
+        $user = $this->freeUser();
+        Sanctum::actingAs($user);
+
+        $sessionId = 'SESS-FREE-01';
+        $this->submitAnswers($user, $this->lesson1, $sessionId, [
+            self::GOOD_ANSWER,
+            self::GOOD_ANSWER,
+            'I do not know how to answer this question.',
+            'I do not know how to answer this question.',
+            'I do not know how to answer this question.',
+        ]);
+
+        $this->actingAs($user)
+            ->postJson('api/v1/curriculum/lessons/'.$this->lesson1->id.'/complete', [
+                'session_id' => $sessionId,
+            ])->assertOk()
+            ->assertJsonPath('data.remaining_trial_sessions', 0);
+
+        $this->assertSame(0, $user->fresh()->remaining_trial_sessions);
+
+        // complete kedua untuk session yang sama tidak mengonsumsi kuota lagi.
+        $this->actingAs($user)
+            ->postJson('api/v1/curriculum/lessons/'.$this->lesson1->id.'/complete', [
+                'session_id' => $sessionId,
+            ])->assertOk()
+            ->assertJsonPath('data.remaining_trial_sessions', 0);
+
+        $this->assertSame(0, $user->fresh()->remaining_trial_sessions);
+    }
+
+    public function test_complete_does_not_consume_quota_for_premium_user(): void
+    {
+        $user = $this->premiumUser();
+        Sanctum::actingAs($user);
+
+        $sessionId = 'SESS-PREMIUM-01';
+        $this->submitAnswers($user, $this->lesson1, $sessionId, [
+            self::GOOD_ANSWER,
+            self::GOOD_ANSWER,
+            self::GOOD_ANSWER,
+            self::GOOD_ANSWER,
+            self::GOOD_ANSWER,
+        ]);
+
+        $this->actingAs($user)
+            ->postJson('api/v1/curriculum/lessons/'.$this->lesson1->id.'/complete', [
+                'session_id' => $sessionId,
+            ])->assertOk()
+            ->assertJsonPath('data.remaining_trial_sessions', 5);
+
+        $this->assertSame(5, $user->fresh()->remaining_trial_sessions);
     }
 
     // ──────────────────────────────────────────────────────────────

@@ -98,6 +98,7 @@ class Index extends Component
         $user = User::findOrFail($this->editingId);
         $user->remaining_trial_sessions = $this->remainingSessions;
         $user->save();
+        $user->syncTotalFreeSessionsGranted();
 
         $this->reset(['editingId', 'remainingSessions']);
     }

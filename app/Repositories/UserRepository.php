@@ -26,6 +26,8 @@ class UserRepository extends Repository
 
     public function firstOrCreateByDeviceUuid(string $deviceUuid): User
     {
+        $grant = AppConfiguration::initialFreeSessions();
+
         return User::firstOrCreate(
             ['device_uuid' => $deviceUuid],
             [
@@ -33,7 +35,8 @@ class UserRepository extends Repository
                 'email' => 'guest-'.Str::lower(Str::random(16)).'@topspeak.app',
                 'password' => Str::password(32),
                 'current_cefr_level' => 'A1',
-                'remaining_trial_sessions' => AppConfiguration::initialFreeSessions(),
+                'remaining_trial_sessions' => $grant,
+                'total_free_sessions_granted' => $grant,
                 'subscription_status' => SubscriptionStatus::FREE,
             ]
         );

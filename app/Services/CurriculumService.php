@@ -11,6 +11,7 @@ use App\Repositories\PracticeSessionRepository;
 use App\Repositories\QuestionRepository;
 use App\Repositories\UnitRepository;
 use App\Repositories\UserLessonProgressRepository;
+use App\Services\Engine\QuotaService;
 use Illuminate\Support\Str;
 
 /**
@@ -38,6 +39,7 @@ class CurriculumService
         private readonly LessonEvaluator $evaluator,
         private readonly PracticeSessionRepository $practiceSessions,
         private readonly ProgressPredictorService $predictor,
+        private readonly QuotaService $quota,
     ) {
     }
 
@@ -173,7 +175,17 @@ class CurriculumService
             }
         }
 
+        // Idempoten: konsumsi kuota hanya sekali per session.
+        $existingPracticeSession = \App\Models\PracticeSession::where('user_id', $user->id)
+            ->where('session_id', $sessionId)
+            ->first();
+
         $this->recordPracticeSession($user->id, $lessonId, $sessionId, $evaluations, $correctCount, $total, $isPassed);
+
+        if ($existingPracticeSession === null || $existingPracticeSession->completed_at === null) {
+            $this->quota->consumeTrialSession($user);
+            $user->refresh();
+        }
 
         $this->predictor->recalculate($user);
 
@@ -185,6 +197,7 @@ class CurriculumService
                 'lesson_status' => $isPassed ? LessonProgressStatus::PASSED->value : LessonProgressStatus::NOT_PASSED->value,
             ],
             'evaluations' => $evaluations,
+            'remaining_trial_sessions' => $user->remaining_trial_sessions,
         ];
     }
 
