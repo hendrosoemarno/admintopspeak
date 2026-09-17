@@ -4,6 +4,7 @@ namespace App\Services\Engine;
 
 use App\Models\Question;
 use App\Models\QuestionBank;
+use App\Models\ThematicQuestion;
 use App\Services\Llm\LlmClient;
 use App\Services\Llm\LlmGrammarEvaluator;
 
@@ -40,7 +41,7 @@ class AdaptiveLevelingEngine
     ) {
     }
 
-    public function score(string $transcript, QuestionBank|Question $question, ?string $cefrLevel = null): array
+    public function score(string $transcript, QuestionBank|Question|ThematicQuestion $question, ?string $cefrLevel = null): array
     {
         // Kalimat fallback / hedging (mis. "i don't know", "something like that")
         // TIDAK dinilai: grammar = 0 tanpa memanggil LLM.

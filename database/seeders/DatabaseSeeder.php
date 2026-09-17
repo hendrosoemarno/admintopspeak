@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
         $this->seedVocabulary();
         $this->seedQuestionBanks();
         $this->seedThematicTopics();
+        $this->seedThematicQuestions();
         $this->seedUsers();
         $this->seedAdminUser();
         $this->seedConversationSessions();
@@ -369,6 +370,136 @@ class DatabaseSeeder extends Seeder
                     'created_by' => null,
                 ]
             );
+        }
+    }
+
+    private function seedThematicQuestions(): void
+    {
+        $questions = [
+            'Job Interview Simulation' => [
+                ['Tell me about yourself and your background.', 'My name is Rina. I have five years of experience as a marketing analyst and I specialize in digital campaigns.', 'B1', 'work experience'],
+                ['Why do you want to work for this company?', 'I want to work here because your company values innovation and offers real career growth opportunities.', 'B1', 'company motivation'],
+                ['What are your greatest strengths?', 'My greatest strengths are communication and problem solving. I stay calm under pressure and can lead a team effectively.', 'B1', 'strengths'],
+                ['What is your biggest weakness?', 'I sometimes spend too much time perfecting small details, but I am learning to prioritize better.', 'B1', 'weakness'],
+                ['Where do you see yourself in five years?', 'In five years I plan to grow into a senior marketing lead and mentor junior team members while delivering strong results.', 'B1', 'career plan'],
+                ['Tell me about a challenge you faced at work.', 'Last year our team missed a deadline, so I reorganized our task list and daily stand-up meetings to get the project back on track.', 'B1', 'challenge'],
+                ['Why should we hire you?', 'You should hire me because I bring proven results, a strong work ethic, and the exact skills your team currently needs.', 'B1', 'self promotion'],
+                ['How do you handle stress and pressure?', 'I handle pressure by breaking tasks into smaller steps and focusing on one priority at a time, which keeps me productive and calm.', 'B1', 'stress management'],
+                ['What do you know about our company?', 'I know your company leads the local tech market and focuses on user-friendly products with strong customer support.', 'B1', 'company research'],
+                ['Do you have any questions for us?', 'Yes, I would like to know what the daily responsibilities of this role are and how the team measures success.', 'B1', 'questions to ask'],
+            ],
+            'Ordering Food at a Restaurant' => [
+                ['Good afternoon, welcome to our restaurant. What can I get for you today?', 'I would like a bowl of chicken soup and a glass of orange juice, please.', 'A1', 'ordering food'],
+                ['Would you like anything to drink?', 'Yes, I would like some water and one cup of hot tea, please.', 'A1', 'drink order'],
+                ['What do you recommend from the menu today?', 'I think the grilled fish with rice is excellent today because it is fresh and delicious.', 'A1', 'recommendation'],
+                ['How would you like your steak cooked?', 'I would like my steak medium rare, please, with extra vegetables on the side.', 'A1', 'cooking preference'],
+                ['Is everything okay with your meal?', 'Yes, everything is delicious. Could I have some more bread, please?', 'A1', 'meal feedback'],
+                ['Would you like dessert after your meal?', 'Yes, I would love a piece of chocolate cake with a cup of coffee, please.', 'A1', 'dessert'],
+                ['Do you have any allergies I should know about?', 'I am allergic to peanuts, so please do not add nuts to my food.', 'A1', 'allergy'],
+                ['Would you like to order an appetizer first?', 'Yes, please bring us the spring rolls and a small salad to start.', 'A1', 'appetizer'],
+                ['How is the food today?', 'The food is very tasty and the service is excellent. I really enjoy my meal.', 'A1', 'food quality'],
+                ['Can I get you anything else?', 'No thanks, could I have the bill now, please?', 'A1', 'bill'],
+            ],
+            'Talking About Your Weekend' => [
+                ['Hi! How was your weekend?', 'My weekend was great. I spent Sunday relaxing at home and watched a movie with my family.', 'A1', 'weekend response'],
+                ['What did you do last Saturday?', 'Last Saturday I visited my grandparents and had lunch together at their house.', 'A1', 'saturday activity'],
+                ['Did you go anywhere this weekend?', 'Yes, I went to the beach on Sunday with my friends and we had a wonderful time.', 'A1', 'going out'],
+                ['What do you usually do on weekends?', 'I usually sleep late, do some shopping, and meet my friends for coffee.', 'A1', 'usual weekend'],
+                ['Do you prefer spending weekends at home or outside?', 'I prefer spending weekends outside because I love exploring new places and meeting people.', 'A1', 'preference'],
+                ['Who did you spend your weekend with?', 'I spent my weekend with my family and some close friends from my neighborhood.', 'A1', 'companions'],
+                ['Was your weekend relaxing?', 'Yes, it was very relaxing. I slept well and did not do any work at all.', 'A1', 'relaxing'],
+                ['Did you watch any movies this weekend?', 'Yes, I watched two movies at home, one comedy and one action movie.', 'A1', 'movies'],
+                ['What was the best part of your weekend?', 'The best part was having a family dinner on Sunday evening with a lot of laughter.', 'A1', 'best moment'],
+                ['Do you have any plans for next weekend?', 'I plan to visit a new museum on Saturday and cook something special on Sunday.', 'A1', 'future plans'],
+            ],
+            'Airport Check-in & Travel' => [
+                ['Good morning, may I see your passport and ticket, please?', 'Good morning, here is my passport and this is my boarding ticket.', 'A2', 'documents'],
+                ['Do you have any luggage to check in today?', 'Yes, I have one suitcase that I would like to check in and a small bag that I will carry with me.', 'A2', 'luggage'],
+                ['Which seat would you prefer, window or aisle?', 'I prefer a window seat, please, so I can enjoy the view during the flight.', 'A2', 'seat preference'],
+                ['Would you like any special meal for your flight?', 'Yes, I would like a vegetarian meal, please.', 'A2', 'special meal'],
+                ['Where are you traveling to today?', 'I am traveling to Singapore today for a three-day business trip.', 'A2', 'destination'],
+                ['Could you place your bag on the scale, please?', 'Of course, here is my carry-on bag. I hope it is not too heavy.', 'A2', 'hand luggage'],
+                ['Is this your first time flying with us?', 'No, I have flown with your airline many times and I really like the service.', 'A2', 'first flight'],
+                ['What is the purpose of your visit?', 'I am going for a business meeting with our company partners.', 'A2', 'purpose of visit'],
+                ['Please proceed to gate number seven for boarding.', 'Thank you, I will go to gate number seven now. Which time does boarding start?', 'A2', 'boarding gate'],
+                ['Have a nice flight!', 'Thank you very much, I will. Goodbye!', 'A2', 'farewell'],
+            ],
+            'Visiting the Doctor' => [
+                ['Good morning, what brings you here today?', 'Good morning, I have a sore throat and a headache that started two days ago.', 'A2', 'symptoms'],
+                ['How long have you been feeling this way?', 'I have been feeling unwell since Monday, so about three days now.', 'A2', 'duration'],
+                ['Do you have a fever or any other symptoms?', 'I have a slight fever and I feel very tired all the time.', 'A2', 'other symptoms'],
+                ['Are you taking any medication right now?', 'I am taking some painkillers and vitamins that I bought at the pharmacy.', 'A2', 'medication'],
+                ['Do you have any allergies to medicine?', 'Yes, I am allergic to penicillin, so please avoid antibiotics from that group.', 'A2', 'medicine allergy'],
+                ['Have you had this problem before?', 'I had a similar problem last year during the rainy season.', 'A2', 'history'],
+                ['Did you sleep or eat well recently?', 'I have not been eating well this week and I sleep only about five hours a night.', 'A2', 'lifestyle'],
+                ['Let me check your temperature and blood pressure.', 'Okay doctor, I will follow your instructions and stand still for the examination.', 'A2', 'examination'],
+                ['You need to rest and drink lots of water.', 'Thank you doctor. How long should I rest before I can return to work?', 'A2', 'rest advice'],
+                ['Please take this medicine three times a day after meals.', 'Understood, I will take it three times a day after meals for one week.', 'A2', 'take medicine'],
+            ],
+            'University Campus Tour' => [
+                ['Welcome to our campus! Where would you like to start the tour?', 'I would love to start with the library and then see the main lecture hall.', 'B1', 'tour start'],
+                ['What facilities does this university offer?', 'This university has modern laboratories, a large library, sports centers, and comfortable dormitories.', 'B1', 'facilities'],
+                ['How many students study here each year?', 'About ten thousand students study here every year, including many international students.', 'B1', 'student body'],
+                ['Can you tell me about the study programs?', 'We offer strong programs in engineering, medicine, business, and computer science.', 'B1', 'study programs'],
+                ['How do I apply to this university?', 'You can apply online through our website, and you will need your transcripts and an English test score.', 'B1', 'application'],
+                ['Are there scholarships for international students?', 'Yes, we provide merit-based scholarships that cover up to fifty percent of tuition fees.', 'B1', 'scholarship'],
+                ['What is student life like on campus?', 'Student life is very active, with clubs, sports teams, cultural events, and weekly study groups.', 'B1', 'student life'],
+                ['Is the campus near the city center?', 'Yes, the campus is about ten minutes from the city center and easy to reach by bus.', 'B1', 'location'],
+                ['Where can international students live?', 'International students usually live in the dormitories on campus or close apartments nearby.', 'B1', 'accommodation'],
+                ['Can I visit a lecture to see how classes are taught?', 'Yes, you are welcome to attend our English literature class tomorrow at nine in the morning.', 'B1', 'class visit'],
+            ],
+            'Tech Startup Pitch' => [
+                ['Tell me about your product and what problem it solves.', 'Our product is an AI scheduling app that saves small businesses an average of ten hours a week.', 'C1', 'product value'],
+                ['Who is your target market?', 'Our main target is small and medium retail businesses that struggle with manual appointment management.', 'C1', 'target market'],
+                ['How is your product different from competitors?', 'Unlike competitors, we offer full automation and a pricing model that starts free for small teams.', 'C1', 'differentiation'],
+                ['What is your business model and revenue streams?', 'We generate revenue through monthly subscriptions and a premium tier with advanced analytics.', 'C1', 'business model'],
+                ['What is your current traction?', 'We currently have two hundred paying customers and we are growing at twenty percent each month.', 'C1', 'traction'],
+                ['How large is your team?', 'Our team has eight members, four engineers, two designers, and two business developers.', 'C1', 'team size'],
+                ['What are your key metrics?', 'Our key metrics are monthly recurring revenue, customer retention, and daily active users.', 'C1', 'metrics'],
+                ['What is your funding ask and how will you use it?', 'We are raising two hundred thousand dollars to expand engineering and launch our marketing campaigns.', 'C1', 'funding'],
+                ['What are the biggest risks to your startup?', 'The biggest risks are competition from larger platforms and difficulty acquiring customers in new regions.', 'C1', 'risks'],
+                ['What is your 12-month vision?', 'Within twelve months, we aim to reach ten thousand customers and expand into two new countries.', 'C1', 'vision'],
+            ],
+            'Debating Social Media' => [
+                ['Do you think social media connects or divides people?', 'I believe social media connects people across distances, but it can also divide society when misinformation spreads.', 'B2', 'social media impact'],
+                ['What are the positive effects of social media?', 'Social media provides instant communication, access to news, and incredible opportunities for small businesses.', 'B2', 'positive effects'],
+                ['What are the dangers of social media?', 'The main dangers are data privacy issues, cyberbullying, and the spread of misleading information.', 'B2', 'dangers'],
+                ['Should children have their own social media accounts?', 'I think children under thirteen should not have unrestricted access, because they are not ready to handle online risks.', 'B2', 'children'],
+                ['Does social media affect mental health?', 'Yes, heavy usage can increase anxiety and comparison, but moderate use with healthy habits is usually fine.', 'B2', 'mental health'],
+                ['Should social media platforms regulate more content?', 'Platforms should regulate harmful content more strictly, but they must also protect freedom of speech.', 'B2', 'regulation'],
+                ['Is social media good for democracy?', 'It can strengthen democracy by giving everyone a voice, yet it can also spread propaganda if left unchecked.', 'B2', 'democracy'],
+                ['Do you think people spend too much time on social media?', 'Yes, many people check their phones hundreds of times daily, which harms productivity and real relationships.', 'B2', 'screen time'],
+                ['Should governments control social media usage?', 'Governments should set clear rules but not control free expression, because balance is essential in a democracy.', 'B2', 'government control'],
+                ['How can people use social media more healthily?', 'People can set daily time limits, mute negative accounts, and prioritize face-to-face communication.', 'B2', 'healthy usage'],
+            ],
+        ];
+
+        $topicsByLevel = [
+            'Job Interview Simulation' => 'B1',
+            'Ordering Food at a Restaurant' => 'A1',
+            'Talking About Your Weekend' => 'A1',
+            'Airport Check-in & Travel' => 'A2',
+            'Visiting the Doctor' => 'A2',
+            'University Campus Tour' => 'B1',
+            'Tech Startup Pitch' => 'C1',
+            'Debating Social Media' => 'B2',
+        ];
+
+        foreach ($questions as $topicName => $rows) {
+            $topic = ThematicTopic::where('topic_name', $topicName)->first();
+            foreach ($rows as [$questionText, $standardAnswer, $level, $keyPoint]) {
+                \App\Models\ThematicQuestion::updateOrCreate(
+                    [
+                        'topic_id' => $topic->id,
+                        'question_text' => $questionText,
+                    ],
+                    [
+                        'standard_answer' => $standardAnswer,
+                        'cefr_level' => $topicsByLevel[$topicName],
+                        'key_point' => $keyPoint,
+                    ]
+                );
+            }
         }
     }
 

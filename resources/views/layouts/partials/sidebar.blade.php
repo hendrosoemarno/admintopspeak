@@ -34,6 +34,9 @@
         <a href="{{ route('admin.thematic-topics.index') }}" @class(['flex items-center gap-3 px-3 py-2 rounded-lg', 'bg-slate-800 text-white' => request()->routeIs('admin.thematic-topics.*'), 'hover:bg-slate-800' => !request()->routeIs('admin.thematic-topics.*')])>
             <span>🎭</span> Thematic Topics
         </a>
+        <a href="{{ route('admin.thematic-questions.index') }}" @class(['flex items-center gap-3 px-3 py-2 rounded-lg', 'bg-slate-800 text-white' => request()->routeIs('admin.thematic-questions.*'), 'hover:bg-slate-800' => !request()->routeIs('admin.thematic-questions.*')])>
+            <span>💬</span> Soal Tematik
+        </a>
         <a href="{{ route('admin.vocabulary.index') }}" @class(['flex items-center gap-3 px-3 py-2 rounded-lg', 'bg-slate-800 text-white' => request()->routeIs('admin.vocabulary.*'), 'hover:bg-slate-800' => !request()->routeIs('admin.vocabulary.*')])>
             <span>📚</span> Vocabulary Bank
         </a>

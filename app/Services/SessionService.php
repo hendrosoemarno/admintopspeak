@@ -12,11 +12,13 @@ use App\Exceptions\SessionNotFoundException;
 use App\Models\ConversationSession;
 use App\Models\Question;
 use App\Models\QuestionBank;
+use App\Models\ThematicQuestion;
 use App\Models\User;
 use App\Repositories\ConversationLogRepository;
 use App\Repositories\QuestionBankRepository;
 use App\Repositories\QuestionRepository;
 use App\Repositories\SessionRepository;
+use App\Repositories\ThematicQuestionRepository;
 use App\Repositories\UserRepository;
 use App\Services\Engine\AdaptiveLevelingEngine;
 use App\Services\Engine\QuotaService;
@@ -43,6 +45,7 @@ class SessionService
         private readonly UserRepository $users,
         private readonly QuestionBankRepository $questions,
         private readonly QuestionRepository $curriculumQuestions,
+        private readonly ThematicQuestionRepository $thematicQuestions,
         private readonly ConversationLogRepository $logs,
         private readonly AdaptiveLevelingEngine $engine,
         private readonly LessonEvaluator $lessonEvaluator,
@@ -109,14 +112,20 @@ class SessionService
         }
 
         $isIeltsCurriculum = $this->isIeltsCurriculum($session);
+        $isThematic = $session->mode === SessionMode::THEMATIC;
 
-        $question = $isIeltsCurriculum
-            ? $this->curriculumQuestions->find($payload['question_id'])
-            : $this->questions->find($payload['question_id']);
+        $question = match (true) {
+            $isIeltsCurriculum => $this->curriculumQuestions->find($payload['question_id']),
+            $isThematic => $this->thematicQuestions->find($payload['question_id'])
+                ?? $this->questions->find($payload['question_id']),
+            default => $this->questions->find($payload['question_id']),
+        };
 
         if (! $question) {
             throw new \InvalidArgumentException('question_id tidak valid.', 422);
         }
+
+        $isThematicQuestion = $question instanceof ThematicQuestion;
 
         $transcript = trim($payload['user_transcript']);
 
@@ -148,10 +157,11 @@ class SessionService
             userId: $user->id,
             sessionId: $session->id,
             turnNumber: $turnNumber,
-            questionId: $question->id,
+            questionId: $isThematicQuestion ? null : $question->id,
             transcript: $transcript,
             correctWay: $correctWay,
             scores: $scores,
+            thematicQuestionId: $isThematicQuestion ? $question->id : null,
         );
 
         // Self-learning berbasis regex tidak lagi dipakai: penilaian grammar
@@ -525,6 +535,10 @@ class SessionService
         $excludeIds = $this->logs->sessionLogs($session->user_id, $session->id)
             ->pluck('curriculum_question_id', 'question_id')
             ->flatMap(fn ($curriculumId, $questionId) => [$questionId, $curriculumId])
+            ->merge(
+                $this->logs->sessionLogs($session->user_id, $session->id)
+                    ->pluck('thematic_question_id'),
+            )
             ->reject(fn ($id) => $id === null)
             ->unique()
             ->values()
@@ -540,23 +554,26 @@ class SessionService
      * unit/lesson (part_number, topic/theme) dan CEFR memakai level sesi.
      */
     private function questionPayload(
-        QuestionBank|Question $question,
+        QuestionBank|Question|ThematicQuestion $question,
         int $turn,
         string $level,
         SessionMode $mode,
     ): array {
         $isCurriculum = $question instanceof Question;
+        $isThematic = $question instanceof ThematicQuestion;
         $unit = $isCurriculum ? $question->lesson?->unit : null;
 
         return [
             'question_id' => $question->id,
             'turn_number' => $turn,
             'question_text' => $question->question_text,
-            'key_point' => $isCurriculum ? $question->key_point : null,
-            'topic_category' => $isCurriculum ? ($unit?->title ?? null) : $question->topic_category,
-            'cefr_level' => $isCurriculum ? $level : $question->cefr_level->value,
+            'key_point' => ($isCurriculum || $isThematic) ? $question->key_point : null,
+            'topic_category' => $isThematic
+                ? ($question->topic?->topic_name ?? null)
+                : ($isCurriculum ? ($unit?->title ?? null) : $question->topic_category),
+            'cefr_level' => $isThematic ? $level : ($isCurriculum ? $level : $question->cefr_level->value),
             'part_number' => $isCurriculum ? ($unit?->part ?? null) : $question->part_number,
-            'audio_url' => $isCurriculum ? null : data_get($question->metadata, 'audio_url'),
+            'audio_url' => $isThematic || $isCurriculum ? null : data_get($question->metadata, 'audio_url'),
         ];
     }
 
@@ -565,7 +582,7 @@ class SessionService
         string $level,
         int $turn,
         array $excludeIds,
-    ): QuestionBank|Question {
+    ): QuestionBank|Question|ThematicQuestion {
         $question = null;
 
         // Mode ujian (IELTS/TOEFL): soal dipilih per part berurutan, tanpa promosi.
@@ -583,19 +600,9 @@ class SessionService
             }
         }
 
+        // Mode THEMATIC: soal diambil dari thematic_questions khusus topik.
         if ($session->mode === SessionMode::THEMATIC && $session->topic_id) {
-            $topic = $session->topic;
-            if ($topic) {
-                $categories = collect([$topic->topic_name, ...($topic->context_vocab_tags ?? [])])
-                    ->unique()
-                    ->values();
-                foreach ($categories as $category) {
-                    $question = $this->questions->randomForTopicCategory($category, $excludeIds, $level);
-                    if ($question) {
-                        break;
-                    }
-                }
-            }
+            $question = $this->thematicQuestions->randomForTopic($session->topic_id, $excludeIds);
         }
 
         $question ??= $this->questions->nextForTurn($level, $excludeIds, preferStarter: $turn === 1);

@@ -8,6 +8,7 @@ use App\Models\GrammarRule;
 use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\QuestionBank;
+use App\Models\ThematicQuestion;
 use App\Models\ThematicTopic;
 use App\Models\Unit;
 use App\Models\VocabularyBank;
@@ -45,6 +46,9 @@ class Index extends Component
         ],
         'thematic_topics' => [
             'title' => 'Thematic Topics',
+        ],
+        'thematic_questions' => [
+            'title' => 'Thematic Questions',
         ],
         'vocabulary_bank' => [
             'title' => 'Vocabulary Bank',
@@ -293,6 +297,7 @@ class Index extends Component
             'question_banks' => $this->normalizeQuestionBank($row),
             'grammar_rules' => $this->normalizeGrammarRule($row),
             'thematic_topics' => $this->normalizeThematicTopic($row),
+            'thematic_questions' => $this->normalizeThematicQuestion($row),
             'vocabulary_bank' => $this->normalizeVocabulary($row),
             'filler_words' => $this->normalizeFillerWord($row),
             'word_transformation' => $this->normalizeWordTransformation($row),
@@ -307,6 +312,7 @@ class Index extends Component
             'question_banks' => $this->persistQuestionBank($row),
             'grammar_rules' => $this->persistGrammarRule($row),
             'thematic_topics' => $this->persistThematicTopic($row),
+            'thematic_questions' => $this->persistThematicQuestion($row),
             'vocabulary_bank' => $this->persistVocabulary($row),
             'filler_words' => $this->persistFillerWord($row),
             'word_transformation' => $this->persistWordTransformation($row),
@@ -321,6 +327,7 @@ class Index extends Component
             'question_banks' => $row['question_text'] ?? null,
             'grammar_rules' => $row['rule_code'] ?? null,
             'thematic_topics' => $row['topic_name'] ?? null,
+            'thematic_questions' => $row['question_text'] ?? null,
             'vocabulary_bank' => $row['word'] ?? null,
             'filler_words' => $row['phrase'] ?? null,
             'word_transformation' => $this->uniqueKeyForTransformation($row),
@@ -335,6 +342,9 @@ class Index extends Component
             'question_banks' => QuestionBank::where('question_text', $row['question_text'])->exists(),
             'grammar_rules' => GrammarRule::where('rule_code', $row['rule_code'])->exists(),
             'thematic_topics' => ThematicTopic::where('topic_name', $row['topic_name'])->exists(),
+            'thematic_questions' => ThematicQuestion::where('topic_id', $row['topic_id'])
+                ->where('question_text', $row['question_text'])
+                ->exists(),
             'vocabulary_bank' => VocabularyBank::where('word', $row['word'])->exists(),
             'filler_words' => FillerWord::where('phrase', $row['phrase'])->exists(),
             'word_transformation' => $this->transformationRowExists($row),
@@ -379,18 +389,8 @@ class Index extends Component
                 ])
                 ->values()
                 ->all(),
-            'thematic_topics' => ThematicTopic::query()
-                ->orderBy('topic_name')
-                ->get()
-                ->map(fn (ThematicTopic $topic) => [
-                    'topic_name' => $topic->topic_name,
-                    'roleplay_persona' => $topic->roleplay_persona,
-                    'selected_level' => $topic->selected_level,
-                    'context_vocab_tags' => $topic->context_vocab_tags ?? [],
-                    'is_active' => (bool) $topic->is_active,
-                ])
-                ->values()
-                ->all(),
+            'thematic_topics' => $this->exportThematicTopics(),
+            'thematic_questions' => $this->exportThematicQuestions(),
             'vocabulary_bank' => VocabularyBank::query()
                 ->orderBy('word')
                 ->get()
@@ -552,6 +552,84 @@ class Index extends Component
         ThematicTopic::updateOrCreate(['topic_name' => $row['topic_name']], $row);
 
         return true;
+    }
+
+    private function exportThematicTopics(): array
+    {
+        return ThematicTopic::query()
+            ->orderBy('topic_name')
+            ->get()
+            ->map(fn (ThematicTopic $topic) => [
+                'topic_name' => $topic->topic_name,
+                'roleplay_persona' => $topic->roleplay_persona,
+                'selected_level' => $topic->selected_level,
+                'context_vocab_tags' => $topic->context_vocab_tags ?? [],
+                'is_active' => (bool) $topic->is_active,
+            ])
+            ->values()
+            ->all();
+    }
+
+    private function normalizeThematicQuestion(array $row): array
+    {
+        if (empty($row['topic_name'])) {
+            throw new \InvalidArgumentException('topic_name wajib diisi.');
+        }
+
+        if (empty($row['question_text'])) {
+            throw new \InvalidArgumentException('question_text wajib diisi.');
+        }
+
+        $topic = ThematicTopic::where('topic_name', trim((string) $row['topic_name']))->first();
+
+        if ($topic === null) {
+            throw new \InvalidArgumentException("Topik tematik '{$row['topic_name']}' tidak ditemukan. Import topik terlebih dahulu.");
+        }
+
+        $cefr = strtoupper((string) ($row['cefr_level'] ?? 'A1'));
+
+        return [
+            'topic_id' => $topic->id,
+            'question_text' => trim((string) $row['question_text']),
+            'standard_answer' => trim((string) ($row['standard_answer'] ?? '')),
+            'cefr_level' => in_array($cefr, array_map(fn ($l) => $l->value, CefrLevel::cases()), true) ? $cefr : 'A1',
+            'key_point' => trim((string) ($row['key_point'] ?? '')),
+        ];
+    }
+
+    private function persistThematicQuestion(array $row): bool
+    {
+        $existing = ThematicQuestion::where('topic_id', $row['topic_id'])
+            ->where('question_text', $row['question_text'])
+            ->first();
+
+        if ($existing) {
+            $existing->update($row);
+
+            return true;
+        }
+
+        ThematicQuestion::create($row);
+
+        return true;
+    }
+
+    private function exportThematicQuestions(): array
+    {
+        return ThematicQuestion::query()
+            ->with('topic')
+            ->orderBy('topic_id')
+            ->orderBy('id')
+            ->get()
+            ->map(fn (ThematicQuestion $q) => [
+                'topic_name' => $q->topic?->topic_name ?? '',
+                'question_text' => $q->question_text,
+                'standard_answer' => $q->standard_answer ?? '',
+                'cefr_level' => $q->cefr_level->value,
+                'key_point' => $q->key_point ?? '',
+            ])
+            ->values()
+            ->all();
     }
 
     private function normalizeVocabulary(array $row): array
@@ -865,6 +943,15 @@ class Index extends Component
                     'selected_level' => 'Beginner',
                     'context_vocab_tags' => ['family', 'home', 'together'],
                     'is_active' => true,
+                ],
+            ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
+            'thematic_questions' => json_encode([
+                [
+                    'topic_name' => 'Talking About Family',
+                    'question_text' => 'Tell me about your family.',
+                    'standard_answer' => 'My family is small. I live with my parents and my younger sister. We like to spend time together on weekends.',
+                    'cefr_level' => 'A1',
+                    'key_point' => 'family members',
                 ],
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE),
             'vocabulary_bank' => json_encode([

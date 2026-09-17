@@ -10,6 +10,7 @@ class ConversationLog extends Model
 {
     protected $fillable = [
     'user_id', 'session_id', 'turn_number', 'question_id', 'curriculum_question_id',
+    'thematic_question_id',
     'user_response_text', 'score_word_count', 'score_grammar',
     'total_turn_score', 'curriculum_score', 'key_point_detected', 'key_point_target',
     'grammar_feedback', 'vocabulary_feedback', 'suggested_answer', 'has_error',
@@ -46,5 +47,10 @@ class ConversationLog extends Model
     public function curriculumQuestion(): BelongsTo
     {
         return $this->belongsTo(Question::class, 'curriculum_question_id');
+    }
+
+    public function thematicQuestion(): BelongsTo
+    {
+        return $this->belongsTo(ThematicQuestion::class, 'thematic_question_id');
     }
 }

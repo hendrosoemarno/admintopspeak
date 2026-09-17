@@ -25,6 +25,7 @@ class ConversationLogRepository extends Repository
         ?string $correctWay,
         array $scores,
         ?int $curriculumQuestionId = null,
+        ?int $thematicQuestionId = null,
         ?int $curriculumScore = null,
         bool $keyPointDetected = false,
         ?string $keyPointTarget = null,
@@ -45,7 +46,9 @@ class ConversationLogRepository extends Repository
             'correct_way_text' => $correctWay,
         ];
 
-        if ($curriculumQuestionId !== null) {
+        if ($thematicQuestionId !== null) {
+            $attributes['thematic_question_id'] = $thematicQuestionId;
+        } elseif ($curriculumQuestionId !== null) {
             $attributes['curriculum_question_id'] = $curriculumQuestionId;
         } else {
             $attributes['question_id'] = $questionId;

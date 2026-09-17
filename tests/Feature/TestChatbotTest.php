@@ -9,6 +9,7 @@ use App\Models\Lesson;
 use App\Models\LlmSetting;
 use App\Models\Question;
 use App\Models\QuestionBank;
+use App\Models\ThematicQuestion;
 use App\Models\ThematicTopic;
 use App\Models\Unit;
 use App\Models\User;
@@ -196,7 +197,7 @@ class TestChatbotTest extends TestCase
 
     public function test_chatbot_thematic_defaults_to_first_active_topic_when_none_selected(): void
     {
-        ThematicTopic::create([
+        $topic = ThematicTopic::create([
             'topic_name' => 'Airport Check-in & Travel',
             'roleplay_persona' => 'Airline Staff',
             'selected_level' => 'Elementary',
@@ -205,15 +206,12 @@ class TestChatbotTest extends TestCase
         ]);
 
         foreach (range(1, 3) as $i) {
-            QuestionBank::create([
-                'test_type' => 'ADAPTIVE',
-                'part_number' => 1,
-                'cefr_level' => 'A2',
+            ThematicQuestion::create([
+                'topic_id' => $topic->id,
                 'question_text' => "Airport question number {$i} please.",
-                'required_vocab_tags' => ['airport'],
-                'is_starter' => false,
-                'topic_category' => 'airport',
-                'metadata' => ['audio_url' => null],
+                'standard_answer' => 'I would like to check in and get my boarding pass for the flight.',
+                'cefr_level' => 'A2',
+                'key_point' => 'check-in',
             ]);
         }
 
@@ -227,12 +225,12 @@ class TestChatbotTest extends TestCase
             ->assertSet('step', 'awaiting_answer')
             ->assertSet('currentTurn', 1)
             ->assertSet('selectedTopicId', ThematicTopic::first()->id)
-            ->assertSet('currentQuestion.topic_category', 'airport');
+            ->assertSet('currentQuestion.topic_category', 'Airport Check-in & Travel');
     }
 
     public function test_chatbot_thematic_flow(): void
     {
-        ThematicTopic::create([
+        $topic = ThematicTopic::create([
             'topic_name' => 'Ordering Food at a Restaurant',
             'roleplay_persona' => 'Waiter',
             'selected_level' => 'Beginner',
@@ -241,15 +239,12 @@ class TestChatbotTest extends TestCase
         ]);
 
         foreach (range(1, 3) as $i) {
-            QuestionBank::create([
-                'test_type' => 'ADAPTIVE',
-                'part_number' => 1,
-                'cefr_level' => 'A1',
+            ThematicQuestion::create([
+                'topic_id' => $topic->id,
                 'question_text' => "Restaurant question number {$i} please.",
-                'required_vocab_tags' => ['menu', 'order'],
-                'is_starter' => false,
-                'topic_category' => 'Ordering Food at a Restaurant',
-                'metadata' => ['audio_url' => null],
+                'standard_answer' => 'I would like to order a meal and a drink from the menu, please.',
+                'cefr_level' => 'A1',
+                'key_point' => 'order food',
             ]);
         }
 
@@ -263,6 +258,48 @@ class TestChatbotTest extends TestCase
             ->call('startSession')
             ->assertSet('step', 'awaiting_answer')
             ->assertSet('currentTurn', 1);
+    }
+
+    public function test_chatbot_thematic_turn_records_thematic_question_in_log(): void
+    {
+        $topic = ThematicTopic::create([
+            'topic_name' => 'Weekend Plan',
+            'roleplay_persona' => 'Friend',
+            'selected_level' => 'Beginner',
+            'context_vocab_tags' => ['weekend', 'plan', 'activity'],
+            'is_active' => true,
+        ]);
+
+        $question = ThematicQuestion::create([
+            'topic_id' => $topic->id,
+            'question_text' => 'What are your plans for the weekend?',
+            'standard_answer' => 'I plan to visit my family and go to the park with them.',
+            'cefr_level' => 'A1',
+            'key_point' => 'weekend plans',
+        ]);
+
+        $admin = $this->premiumUser();
+        $this->actingAs($admin);
+
+        $component = Livewire::test(TestChatbotIndex::class)
+            ->set('mode', 'THEMATIC')
+            ->set('selectedUserId', $admin->id)
+            ->set('selectedTopicId', $topic->id)
+            ->call('startSession')
+            ->assertSet('step', 'awaiting_answer');
+
+        $sessionId = $component->get('sessionId');
+
+        $component->set('transcript', self::GOOD_TRANSCRIPT)
+            ->call('submitAnswer')
+            ->assertSet('step', 'awaiting_answer');
+
+        $this->assertDatabaseHas('conversation_logs', [
+            'session_id' => $sessionId,
+            'turn_number' => 1,
+            'question_id' => null,
+            'thematic_question_id' => $question->id,
+        ]);
     }
 
     public function test_chatbot_ielts_mode_shows_curriculum_menu_then_starts_lesson(): void

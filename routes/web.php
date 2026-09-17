@@ -16,6 +16,7 @@ use App\Livewire\Admin\PendingRules\Index as PendingRulesIndex;
 use App\Livewire\Admin\QuestionBanks\Index as QuestionBanksIndex;
 use App\Livewire\Admin\Subscriptions\Index as SubscriptionsIndex;
 use App\Livewire\Admin\TestChatbot\Index as TestChatbotIndex;
+use App\Livewire\Admin\ThematicQuestions\Index as ThematicQuestionsIndex;
 use App\Livewire\Admin\ThematicTopics\Index as ThematicTopicsIndex;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Admin\Users\Show as UserShow;
@@ -40,6 +41,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/ielts-curriculum', IeltsCurriculumIndex::class)->name('ielts-curriculum.index');
         Route::get('/grammar-rules/pending', PendingRulesIndex::class)->name('pending-rules.index');
         Route::get('/thematic-topics', ThematicTopicsIndex::class)->name('thematic-topics.index');
+        Route::get('/thematic-questions', ThematicQuestionsIndex::class)->name('thematic-questions.index');
         Route::get('/vocabulary', VocabularyBankIndex::class)->name('vocabulary.index');
         Route::get('/filler-words', FillerWordsIndex::class)->name('filler-words.index');
         Route::get('/data-transformation', DataTransformationIndex::class)->name('data-transformation.index');

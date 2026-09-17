@@ -14,6 +14,7 @@ use App\Livewire\Admin\PaymentGateway\Settings as PaymentGatewaySettings;
 use App\Livewire\Admin\QuestionBanks\Index as QuestionBanksIndex;
 use App\Livewire\Admin\Subscriptions\Index as SubscriptionsIndex;
 use App\Livewire\Admin\TestChatbot\Index as TestChatbotIndex;
+use App\Livewire\Admin\ThematicQuestions\Index as ThematicQuestionsIndex;
 use App\Livewire\Admin\ThematicTopics\Index as ThematicTopicsIndex;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Admin\VocabularyBank\Index as VocabularyBankIndex;
@@ -23,6 +24,7 @@ use App\Models\Lesson;
 use App\Models\PendingGrammarRule;
 use App\Models\Question;
 use App\Models\QuestionBank;
+use App\Models\ThematicQuestion;
 use App\Models\ThematicTopic;
 use App\Models\Unit;
 use App\Models\User;
@@ -47,6 +49,7 @@ class AdminPagesTest extends TestCase
         $this->get(route('admin.ielts-curriculum.index'))->assertOk();
         $this->get(route('admin.pending-rules.index'))->assertOk();
         $this->get(route('admin.thematic-topics.index'))->assertOk();
+        $this->get(route('admin.thematic-questions.index'))->assertOk();
         $this->get(route('admin.vocabulary.index'))->assertOk();
         $this->get(route('admin.filler-words.index'))->assertOk();
         $this->get(route('admin.data-transformation.index'))->assertOk();
@@ -300,6 +303,54 @@ class AdminPagesTest extends TestCase
             ->assertHasErrors('topic_name');
 
         $this->assertSame(1, ThematicTopic::count());
+    }
+
+    public function test_thematic_question_can_be_created(): void
+    {
+        $topic = ThematicTopic::create([
+            'topic_name' => 'Talking About Family',
+            'roleplay_persona' => 'Friendly Neighbor',
+            'selected_level' => 'Beginner',
+            'context_vocab_tags' => ['family', 'home'],
+            'is_active' => true,
+        ]);
+
+        Livewire::test(ThematicQuestionsIndex::class)
+            ->call('openCreate')
+            ->set('topic_id', $topic->id)
+            ->set('question_text', 'Tell me about your family.')
+            ->set('standard_answer', 'My family is small. I live with my parents and my younger sister and we love spending time together.')
+            ->set('cefr_level', 'A1')
+            ->set('key_point', 'family members')
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('thematic_questions', [
+            'topic_id' => $topic->id,
+            'question_text' => 'Tell me about your family.',
+        ]);
+    }
+
+    public function test_thematic_question_rejects_short_standard_answer_for_level(): void
+    {
+        $topic = ThematicTopic::create([
+            'topic_name' => 'Job Interview Simulation',
+            'roleplay_persona' => 'Interviewer',
+            'selected_level' => 'Intermediate',
+            'context_vocab_tags' => ['career'],
+            'is_active' => true,
+        ]);
+
+        Livewire::test(ThematicQuestionsIndex::class)
+            ->call('openCreate')
+            ->set('topic_id', $topic->id)
+            ->set('question_text', 'Tell me about your strengths.')
+            ->set('standard_answer', 'I am hardworking.')
+            ->set('cefr_level', 'B1')
+            ->call('save')
+            ->assertHasErrors('standard_answer');
+
+        $this->assertSame(0, ThematicQuestion::count());
     }
 
     public function test_vocabulary_can_be_created(): void
